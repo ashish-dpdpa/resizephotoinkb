@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import { siteConfig } from "./site";
+
+const TITLE_MAX = 62; // roughly what Google shows before cutting off
+const DESC_MAX = 158;
+
+/** Cut text at a word boundary so it fits in search results. */
+export function clamp(text: string, max = DESC_MAX) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[,.;:—-]+$/, "")}…`;
+}
+
+/** Per-page metadata with a self-referencing canonical URL and matching Open Graph tags. */
+export function pageMetadata({
+  title,
+  description,
+  path,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+}): Metadata {
+  const desc = clamp(description);
+  // Add " | Brand" only when the full title still fits; otherwise keep the keyword-rich part.
+  const withBrand = `${title} | ${siteConfig.name}`;
+  const fullTitle = withBrand.length <= TITLE_MAX ? withBrand : title;
+  return {
+    title: { absolute: fullTitle },
+    description: desc,
+    alternates: { canonical: path },
+    openGraph: {
+      type,
+      url: path,
+      title,
+      description: desc,
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+      ...(type === "article" ? { publishedTime, modifiedTime } : {}),
+    },
+    twitter: { card: "summary_large_image", title, description: desc },
+  };
+}

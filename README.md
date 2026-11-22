@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FormReady — exam photo & signature tools
 
-## Getting Started
+Next.js 15 + TypeScript + Tailwind. Every page is static HTML (SSG). All image processing runs in the browser.
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to your domain.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | File |
+|---|---|
+| Site name, domain, contact email | `src/lib/site.ts` |
+| Exam requirements (one entry per exam = one page) | `src/lib/exams.ts` |
+| Tool list / compress sizes | `src/lib/tools.ts` |
+| Blog posts (Markdown + front matter) | `content/blog/*.md` |
+| Image engine (resize, KB targeting, padding, DPI) | `src/lib/image.ts` |
 
-## Learn More
+**Add an exam:** add an object to `exams` in `src/lib/exams.ts`. The exam page, presets, sitemap, footer and home page update automatically.
 
-To learn more about Next.js, take a look at the following resources:
+**Add a blog post:** create `content/blog/my-post-slug.md` with `title`, `description`, `date`, `category`, `tags` in the front matter.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Before applying for AdSense
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Buy a domain, deploy (Vercel works out of the box), set `NEXT_PUBLIC_SITE_URL`.
+2. Change `name` and `contactEmail` in `src/lib/site.ts` (use an email on your own domain).
+3. Re-check every exam in `src/lib/exams.ts` against the official notification and update `lastChecked`.
+4. Grow the blog to roughly 15–25 original, useful posts.
+5. Add the site to Google Search Console, submit `/sitemap.xml`, wait until pages are indexed.
+6. Apply for AdSense. When you get the publisher ID, set `NEXT_PUBLIC_ADSENSE_CLIENT` — the AdSense script, the `google-adsense-account` meta tag and `/ads.txt` are generated from it.
+7. Visitors from the EEA/UK need a Google-certified consent banner (set it up under AdSense → Privacy & messaging).
