@@ -2,6 +2,7 @@
 // Files are read and written locally; nothing is uploaded.
 
 import { canvasToJpeg } from "./image";
+import { siteConfig } from "./site";
 
 type PdfJs = typeof import("pdfjs-dist/legacy/build/pdf.mjs");
 let pdfjsPromise: Promise<PdfJs> | null = null;
@@ -90,8 +91,8 @@ async function buildPdf(pages: PdfPageInput[], quality: number, scale: number) {
     const h = c.height * fit;
     page.drawImage(img, { x: (p.size.width - w) / 2, y: (p.size.height - h) / 2, width: w, height: h });
   }
-  doc.setProducer("FormReady");
-  doc.setCreator("FormReady");
+  doc.setProducer(siteConfig.name);
+  doc.setCreator(siteConfig.name);
   return doc.save({ useObjectStreams: true });
 }
 

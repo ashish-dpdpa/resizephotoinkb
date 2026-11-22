@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import BrandName from "./BrandName";
 import { siteConfig } from "@/lib/site";
 import { exams } from "@/lib/exams";
 import { tools } from "@/lib/tools";
@@ -11,7 +12,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2.5">
             <Logo />
-            <span className="font-display text-xl font-extrabold text-card">{siteConfig.name}</span>
+            <BrandName dark className="text-xl" />
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
             {siteConfig.tagline}. Your photos are processed on your own device and are never uploaded.

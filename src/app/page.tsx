@@ -9,11 +9,11 @@ import Faq from "@/components/Faq";
 
 export const metadata = {
   ...pageMetadata({
-    title: `${siteConfig.name} — Exam Photo & Signature Resizer, Exact KB`,
+    title: `${siteConfig.name}: Exam Photo & Signature Resizer, Exact KB`,
     description: siteConfig.description,
     path: "/",
   }),
-  title: { absolute: `${siteConfig.name} — Exam Photo & Signature Resizer, Exact KB` },
+  title: { absolute: `${siteConfig.name}: Exam Photo & Signature Resizer, Exact KB` },
 };
 
 const popular = ["ssc-cgl", "sbi-po", "ibps-po", "neet-ug", "rrb-ntpc", "ctet"];
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       {/* ---------------- hero ---------------- */}
-      <section className="relative overflow-hidden">
+      <section className="relative z-20 overflow-x-clip">
         <div className="shell grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:pb-24">
           <div>
             <p className="label">For SSC · UPSC · Banking · Railway · NEET · CTET</p>
@@ -119,7 +119,7 @@ export default function Home() {
               </div>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {list.map((e) => (
-                  <li key={e.slug}>
+                  <li key={e.slug} className="min-w-0">
                     <Link href={`/exams/${e.slug}`} className="card card-link flex h-full items-center gap-4 p-4">
                       <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-paper-2 font-display text-sm font-extrabold text-ink">
                         {e.name.split(/[\s()]+/).find((w) => /^[A-Z]{2,5}$/.test(w)) ?? e.name.slice(0, 4)}

@@ -9,7 +9,7 @@ const path = "/tools/photo-resizer";
 const title = "Photo Resizer for Exam Forms";
 
 export const metadata = pageMetadata({
-  title: "Photo Resizer for Exam Forms — Resize to Exact KB & Pixels",
+  title: "Photo Resizer for Exam Forms: Resize to Exact KB & Pixels",
   description:
     "Resize your passport photo to the exact pixel size and KB range for UPSC, IBPS, NEET and other exam forms. Crop, zoom and download a JPG. Free and private.",
   path,
@@ -57,7 +57,7 @@ export default function PhotoResizerPage() {
             <li key={e.slug}>
               <Link href={`/exams/${e.slug}`}>{e.name}</Link>:{" "}
               {e.livePhoto
-                ? "photo is captured live during the application — only the signature is uploaded."
+                ? "photo is captured live during the application, so only the signature is uploaded."
                 : photo
                   ? `${photo.minKB}–${photo.maxKB} KB, preset ${photo.width} × ${photo.height} px.`
                   : "see exam page."}

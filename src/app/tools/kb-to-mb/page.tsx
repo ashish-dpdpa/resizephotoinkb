@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 const path = "/tools/kb-to-mb";
 
 export const metadata = pageMetadata({
-  title: "KB to MB Converter (and MB to KB) — 1024 or 1000",
+  title: "KB to MB Converter (and MB to KB): 1024 or 1000",
   description: "Convert KB to MB, MB to KB and bytes in both 1024 and 1000 based units. Check whether your file fits a form's 50 KB, 200 KB or 1 MB upload limit.",
   path,
 });

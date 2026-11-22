@@ -13,6 +13,30 @@ import { rangePages } from "@/lib/sizePages";
 
 export const dynamicParams = false;
 
+/** One practical question per kind of upload. */
+const kindFaq: Record<string, { q: string; a: string }> = {
+  photo: {
+    q: "Can I take the photo on my phone?",
+    a: "Yes. Stand against a plain light wall facing a window, hold the phone at eye level, and keep your face straight. If the wall isn't plain, switch on White background in the tool.",
+  },
+  postcard: {
+    q: "Does the postcard photo need my name on it?",
+    a: "Usually yes: your name and the date the photo was taken, printed at the bottom. Switch on “Name & date under photo” in the tool to add them.",
+  },
+  signature: {
+    q: "Can I sign in capital letters?",
+    a: "Better not. Most notices, SSC and banking in particular, reject signatures written in capitals. Sign the way you normally do, because you'll sign the same way in the exam hall.",
+  },
+  thumb: {
+    q: "Left thumb or right thumb?",
+    a: "Follow the notice. Most forms ask for the left thumb. Use a stamp pad lightly so the ridges show instead of a solid smudge.",
+  },
+  declaration: {
+    q: "Can I type the declaration instead of writing it?",
+    a: "No. It has to be in your own handwriting, in English and not in capital letters, copied word for word from the notice.",
+  },
+};
+
 export function generateStaticParams() {
   return allDocPages().map((p) => ({ slug: p.exam.slug, doc: p.slug }));
 }
@@ -26,8 +50,8 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { exam, doc: d } = page;
   const noun = docNoun[d.kind];
   return pageMetadata({
-    title: `${exam.name} ${noun.replace("Handwritten ", "")} Size 2026 & Resizer — ${d.minKB}–${d.maxKB} KB`,
-    description: `${exam.name} ${noun.toLowerCase()} size: ${d.minKB}–${d.maxKB} KB JPG, ${d.width} × ${d.height} px. Free ${noun.toLowerCase()} resizer and size converter — nothing is uploaded.`,
+    title: `${exam.name} ${noun.replace("Handwritten ", "")} Resizer: ${d.minKB}–${d.maxKB} KB, ${d.width}×${d.height} px`,
+    description: `${exam.name} ${noun.toLowerCase()} size: ${d.minKB}–${d.maxKB} KB JPG, ${d.width} × ${d.height} px. Free ${noun.toLowerCase()} resizer and size converter. Nothing is uploaded.`,
     path: page.path,
   });
 }
@@ -47,32 +71,48 @@ export default async function DocPage({ params }: { params: Params }) {
   const title = `${exam.name} ${noun} Size 2026`;
   const isInk = d.kind === "signature" || d.kind === "thumb" || d.kind === "declaration";
 
+  // FAQ built from this exam's own data, not a fixed template: the size question,
+  // the exam's own questions about this document, and one question about this kind of upload.
+  const nounLower = noun.toLowerCase();
+  const kindWord = d.kind === "postcard" ? "postcard" : d.kind === "declaration" ? "declaration" : d.kind === "thumb" ? "thumb" : nounLower;
+  const examFaqs = exam.faqs.filter((f) => f.q.toLowerCase().includes(kindWord));
   const faqs = [
-    {
-      q: `What is the ${exam.name} ${noun.toLowerCase()} size in KB?`,
-      a: `The ${exam.noticeRef} lists the ${d.label.toLowerCase()} as ${d.minKB} KB to ${d.maxKB} KB in JPG/JPEG format. Files outside this range are rejected by the portal.`,
-    },
-    {
-      q: `What pixel size should the ${exam.name} ${noun.toLowerCase()} be?`,
-      a: `${d.dimensionNote}${d.dpi ? ` The preset also sets ${d.dpi} DPI in the file.` : ""}`,
-    },
-    {
-      q: `My ${noun.toLowerCase()} is smaller than ${d.minKB} KB. What should I do?`,
-      a: `Use the tool on this page with the ${exam.name} preset. If the image compresses below ${d.minKB} KB, the tool pads the file up to the minimum without changing how it looks.`,
-    },
-    {
-      q: `How do I reduce my ${noun.toLowerCase()} below ${d.maxKB} KB?`,
-      a: `Upload it above. The tool resizes it to ${d.width} × ${d.height} px and picks the highest quality that stays under ${d.maxKB} KB. Download when it shows “within limit”.`,
-    },
-    ...(exam.livePhoto && d.kind === "signature"
+    ...(examFaqs.some((f) => /size|kb/i.test(f.q))
+      ? []
+      : [
+          {
+            q: `What is the ${exam.name} ${nounLower} size?`,
+            a: `${d.minKB} to ${d.maxKB} KB as a JPG, according to the ${exam.noticeRef}. ${d.dimensionNote}`,
+          },
+        ]),
+    ...examFaqs,
+    ...(d.minKB >= 15
       ? [
           {
-            q: `Do I also need to upload a photo for ${exam.name}?`,
-            a: `No. ${exam.name} captures your photograph live through the camera during the application, so the signature is the image you prepare in advance.`,
+            q: `Why does the form say my ${nounLower} is too small?`,
+            a: `${exam.name} wants at least ${d.minKB} KB, and a small, clean image often comes out well below that. The tool here pads the file up to ${d.minKB} KB without changing the picture.`,
           },
         ]
       : []),
+    ...(exam.livePhoto && d.kind === "signature" && !examFaqs.some((f) => /photo/i.test(f.q))
+      ? [
+          {
+            q: `Do I also upload a photo for ${exam.name}?`,
+            a: `No. The photo is taken live with your camera while you fill the form, so the signature is the only image to prepare.`,
+          },
+        ]
+      : []),
+    kindFaq[d.kind],
   ];
+
+  // Intro that changes with the facts of this upload instead of one sentence for every page.
+  const introBits = [
+    `${exam.name} asks for the ${d.label.toLowerCase()} as a JPG between ${d.minKB} and ${d.maxKB} KB.`,
+    d.minKB >= 15 ? `That minimum is higher than on most forms, so files that are too small get rejected as often as big ones.` : "",
+    d.dpi ? `It should also carry ${d.dpi} DPI, which the tool writes into the file for you.` : "",
+    exam.livePhoto && d.kind === "signature" ? `Your photo is captured live in the form, so this is the one image you need ready beforehand.` : "",
+    isInk ? `Photograph it on white paper and the tool will clean the background to pure white.` : `Add your photo below, line up your face, and download when the meter turns green.`,
+  ].filter(Boolean);
 
   const facts: [string, string][] = [
     ["File size", `${d.minKB}–${d.maxKB} KB`],
@@ -96,11 +136,7 @@ export default async function DocPage({ params }: { params: Params }) {
         <h1 className="mt-2 text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">
           {title}: <span className="marker whitespace-nowrap">{d.minKB}–{d.maxKB} KB</span>
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-ink-2">
-          The {exam.name} form needs the {d.label.toLowerCase()} as a JPG between {d.minKB} KB and {d.maxKB} KB. Add your
-          file below and the tool resizes it to {d.width} × {d.height} px and compresses it into that range
-          {isInk ? ", turning the paper background pure white" : ""}.
-        </p>
+        <p className="mt-5 text-lg leading-relaxed text-ink-2">{introBits.join(" ")}</p>
       </header>
 
       <dl className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">

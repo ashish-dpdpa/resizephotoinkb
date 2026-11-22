@@ -21,8 +21,8 @@ function compress(kb: number, uses: string[], extraFaq: { q: string; a: string }
     slug: `compress-pdf-to-${kb >= 1024 ? `${kb / 1024}mb` : `${kb}kb`}`,
     kb,
     title: `Compress PDF to ${l}`,
-    metaTitle: `Compress PDF to ${l} Online — Free, No Upload`,
-    description: `Reduce a PDF to under ${l} for government job, exam and admission forms. Works in your browser — your document is never uploaded.`,
+    metaTitle: `Compress PDF to ${l} Online: Free, No Upload`,
+    description: `Reduce a PDF to under ${l} for government job, exam and admission forms. It works in your browser, so your document is never uploaded.`,
     intro: `Many portals reject certificates and mark sheets above ${l}. Add your PDF and get a copy under ${l} that stays readable.`,
     uses,
     faqs: [
@@ -40,9 +40,9 @@ function toPdf(kb: number, uses: string[]): PdfSizePage {
     slug: `jpg-to-pdf-under-${kb}kb`,
     kb,
     title: `JPG to PDF Under ${l}`,
-    metaTitle: `JPG to PDF Under ${l} — Image to PDF ${l} Online`,
+    metaTitle: `JPG to PDF Under ${l}: Image to PDF ${l} Online`,
     description: `Convert photos or scanned pages (JPG, PNG) into one PDF under ${l}. A4 pages, any order, made in your browser without uploading.`,
-    intro: `Turn one or more images into a single A4 PDF that stays under ${l} — the limit many forms set for certificates and documents.`,
+    intro: `Turn one or more images into a single A4 PDF that stays under ${l}, the limit many forms set for certificates and documents.`,
     uses,
     faqs: [
       { q: `How do I make a PDF under ${l} from photos?`, a: `Add your images, keep ${l} selected and press Create PDF. The tool picks the best quality that keeps the whole PDF under ${l}.` },

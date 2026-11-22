@@ -232,12 +232,19 @@ export async function processImage(img: HTMLImageElement, o: ProcessOptions): Pr
 
   if (o.allowShrink) {
     // Keep quality decent and reduce pixels instead — a smaller sharp image beats a big blocky one.
-    for (let attempt = 0; attempt < 25; attempt++) {
+    // One cheap probe per step tells us how far to shrink, so a 12 MP photo needs a few steps, not twenty.
+    for (let attempt = 0; attempt < 12; attempt++) {
       const canvas = drawFrame(img, w, h, o);
-      found = await bestUnder(canvas, maxBytes, GOOD_QUALITY);
-      if (found || w < 120 || h < 120) break;
-      w = Math.max(1, Math.round(w * 0.85));
-      h = Math.max(1, Math.round(h * 0.85));
+      const probe = await toJpeg(canvas, GOOD_QUALITY);
+      if (probe.size <= maxBytes) {
+        found = await bestUnder(canvas, maxBytes, GOOD_QUALITY);
+        break;
+      }
+      if (w < 120 || h < 120) break;
+      // JPEG size scales roughly with pixel count, i.e. with the square of the side length.
+      const f = Math.min(0.9, Math.max(0.25, Math.sqrt(maxBytes / probe.size) * 0.95));
+      w = Math.max(1, Math.round(w * f));
+      h = Math.max(1, Math.round(h * f));
       shrunk = true;
     }
   }

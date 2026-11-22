@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/exams";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Blog — Guides for Online Exam Application Forms",
+  title: "Blog: Guides for Online Exam Application Forms",
   description:
     "Step-by-step guides on photo and signature requirements, image sizes, age limits and avoiding rejection in SSC, UPSC, banking, railway and NEET forms.",
   path: "/blog",

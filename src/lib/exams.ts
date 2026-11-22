@@ -49,7 +49,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: true,
     intro:
-      "SSC now captures your photograph live through the webcam or mobile camera while you fill the form, so you no longer upload a passport-size photo for CGL. The signature is still uploaded as a scanned JPG, and it must fall inside a narrow KB range — this is where most candidates get stuck.",
+      "SSC now captures your photograph live through the webcam or mobile camera while you fill the form, so you no longer upload a passport-size photo for CGL. The signature is still uploaded as a scanned JPG, and it must fall inside a narrow KB range, this is where most candidates get stuck.",
     docs: [
       {
         kind: "signature",
@@ -61,7 +61,7 @@ export const exams: Exam[] = [
         dimensionNote: "About 6.0 cm × 2.0 cm (wide rectangle). Our preset exports 240 × 80 px.",
         tips: [
           "Sign on plain white paper with a black ink pen.",
-          "Do not sign in capital letters — SSC rejects signatures written in block capitals.",
+          "Don't sign in capital letters. SSC rejects signatures written in block capitals.",
           "Crop tightly around the signature so it fills most of the frame.",
         ],
       },
@@ -82,7 +82,7 @@ export const exams: Exam[] = [
       },
       {
         q: "My signature file is only 6 KB. Will it be accepted?",
-        a: "No — files below the minimum are rejected too. Our tool raises the file size to the minimum without changing how the image looks.",
+        a: "No. Files below the minimum are rejected too. Our tool raises the file size to the minimum without changing how the image looks.",
       },
     ],
   },
@@ -97,7 +97,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: true,
     intro:
-      "SSC CHSL is taken by 12th-pass candidates for LDC, JSA, Postal Assistant and DEO posts. Like CGL, the 2026 form captures your photo live through the camera, so the only image you prepare is your signature — and it has a tight 10–20 KB window.",
+      "SSC CHSL is taken by 12th-pass candidates for LDC, JSA, Postal Assistant and DEO posts. Like CGL, the 2026 form captures your photo live through the camera, so the only image you prepare is your signature, and it has a tight 10–20 KB window.",
     docs: [
       {
         kind: "signature",
@@ -108,14 +108,14 @@ export const exams: Exam[] = [
         height: 80,
         dimensionNote: "About 6.0 cm × 2.0 cm. Our preset exports 240 × 80 px; some guides prefer 140 × 60 px, which also works if you set it as a custom size.",
         tips: [
-          "Sign in running hand with a black pen on white paper — capital-letter signatures are not accepted.",
+          "Sign in running hand with a black pen on white paper. Capital-letter signatures are not accepted.",
           "Many CHSL applicants are first-time form fillers: crop the signature tightly so no paper edges or fingers show.",
         ],
       },
     ],
     notes: [
       "Older guides (written before the 2026 notice) mention a 3.5 × 4.5 cm photo with name and date. That rule does not apply when the photo is captured live.",
-      "If you are also applying for SSC CGL, you can reuse the same signature file — the limits are the same.",
+      "If you are also applying for SSC CGL, you can reuse the same signature file, since the limits are the same.",
       "Keep the device steady and your face well lit during live capture; see our live photo tips.",
     ],
     faqs: [
@@ -186,7 +186,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: true,
     intro:
-      "SSC GD Constable recruits for BSF, CISF, CRPF, ITBP, SSB, SSF and Assam Rifles. The 2026 notice captures the photograph live during the application, so you prepare only the signature. Many third-party sites still quote an old 20–50 KB photo rule — it does not apply to live capture.",
+      "SSC GD Constable recruits for BSF, CISF, CRPF, ITBP, SSB, SSF and Assam Rifles. The 2026 notice captures the photograph live during the application, so you prepare only the signature. Many third-party sites still quote an old 20–50 KB photo rule, it does not apply to live capture.",
     docs: [
       {
         kind: "signature",
@@ -203,7 +203,7 @@ export const exams: Exam[] = [
       },
     ],
     notes: [
-      "Your face is matched against the live photo at the computer-based test, PET/PST and medical stages — keep your appearance similar.",
+      "Your face is matched against the live photo at the computer-based test, PET/PST and medical stages, so keep your appearance similar.",
       "Guides that ask for a 3.5 × 4.5 cm photo at 20–50 KB are based on older notices.",
     ],
     faqs: [
@@ -213,7 +213,7 @@ export const exams: Exam[] = [
       },
       {
         q: "Is the SSC GD photo 20–50 KB?",
-        a: "Not in the 2026 cycle as reported — the photo is captured live, so there is no photo file to resize.",
+        a: "Not in the 2026 cycle, as reported. The photo is captured live, so there is no photo file to resize.",
       },
     ],
   },
@@ -229,7 +229,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "UPSC asks for a recent photograph and a signature image on the one-time registration (OTR) and application portal. The photo range is generous, but UPSC is strict about photo recency, a clear face and the signature format — three signatures on one sheet.",
+      "UPSC asks for a recent photograph and a signature image on the one-time registration (OTR) and application portal. The photo range is generous, but UPSC is strict about photo recency, a clear face and the signature format (three signatures on one sheet).",
     docs: [
       {
         kind: "photo",
@@ -409,7 +409,7 @@ export const exams: Exam[] = [
       },
     ],
     notes: [
-      "If you applied for IBPS PO this year, you can reuse the same photo, signature and thumb impression — the limits match. Write a fresh declaration if the notice text differs.",
+      "If you applied for IBPS PO this year, you can reuse the same photo, signature and thumb impression, because the limits match. Write a fresh declaration if the notice text differs.",
       "Your photograph is also checked against a photo captured at the exam venue.",
     ],
     faqs: [
@@ -434,7 +434,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "SBI runs its own recruitment separately from IBPS, but the upload rules are very similar: photograph, signature, left thumb impression and a handwritten declaration. SBI is strict about the declaration text — it must be copied word for word in your own handwriting.",
+      "SBI runs its own recruitment separately from IBPS, but the upload rules are very similar: photograph, signature, left thumb impression and a handwritten declaration. SBI is strict about the declaration text: it must be copied word for word in your own handwriting.",
     docs: [
       {
         kind: "photo",
@@ -480,7 +480,7 @@ export const exams: Exam[] = [
         dimensionNote: "800 × 400 px at 200 DPI (10 cm × 5 cm), as reported for SBI recruitments.",
         tips: [
           "Copy the declaration exactly as printed in the SBI notice, filling in your name.",
-          "Write in English with black ink — declarations in CAPITAL LETTERS are rejected.",
+          "Write in English with black ink. Declarations in CAPITAL LETTERS are rejected.",
         ],
       },
     ],
@@ -642,7 +642,7 @@ export const exams: Exam[] = [
         dpi: 100,
         dimensionNote: "Minimum 140 × 60 px as in other RRB forms. Our preset exports 280 × 120 px.",
         tips: [
-          "Small signatures are usually 5–15 KB, below the 30 KB minimum — the tool pads the file so it is accepted.",
+          "Small signatures are usually 5–15 KB, below the 30 KB minimum. The tool pads the file so it's accepted.",
           "Sign in black ink on white paper.",
         ],
       },
@@ -658,7 +658,7 @@ export const exams: Exam[] = [
       },
       {
         q: "Do I upload a photo for RRB Group D?",
-        a: "Recent railway forms capture the photo live. Some guides still list a photo upload — follow the instructions on the application portal.",
+        a: "Recent railway forms capture the photo live. Some guides still list a photo upload, so follow the instructions on the application portal.",
       },
     ],
   },
@@ -784,7 +784,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "CTET is required to teach Classes 1–8 in central government schools such as KVS and NVS. The form asks for a scanned photograph and signature with dimensions given in centimetres, which many candidates find confusing — our presets convert them to pixels for you.",
+      "CTET is required to teach Classes 1–8 in central government schools such as KVS and NVS. The form asks for a scanned photograph and signature with dimensions given in centimetres, which many candidates find confusing. Our presets convert them to pixels for you.",
     docs: [
       {
         kind: "photo",
@@ -833,7 +833,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "IBPS RRB recruits Office Assistants (multipurpose) and Officers for Regional Rural Banks across India. The upload rules are the same four-image set as other IBPS exams, and many candidates apply to RRB, PO and Clerk in the same year — one set of files can serve all three if the limits match.",
+      "IBPS RRB recruits Office Assistants (multipurpose) and Officers for Regional Rural Banks across India. The upload rules are the same four-image set as other IBPS exams, and many candidates apply to RRB, PO and Clerk in the same year, one set of files can serve all three if the limits match.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 200, height: 230, dpi: 200, dimensionNote: "200 × 230 px (preferred).", tips: ["Recent colour photo, light background.", "Face straight to the camera, no cap or dark glasses."] },
       { kind: "signature", label: "Signature", minKB: 10, maxKB: 20, width: 140, height: 60, dpi: 200, dimensionNote: "140 × 60 px (preferred).", tips: ["Black ink on white paper.", "Not in capital letters."] },
@@ -860,7 +860,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "GDS recruitment is merit-based on 10th marks, so there is no exam — but the online application must have an acceptable photo and signature. The portal's annexure gives only maximum sizes, and guides quote different pixel sizes, so the safest approach is a clear photo kept under 50 KB and a signature under 20 KB.",
+      "GDS recruitment is merit-based on 10th marks, so there is no exam, but the online application must have an acceptable photo and signature. The portal's annexure gives only maximum sizes, and guides quote different pixel sizes, so the safest approach is a clear photo kept under 50 KB and a signature under 20 KB.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 10, maxKB: 50, width: 320, height: 400, dimensionNote: "Maximum 50 KB as reported; no fixed pixel size. Our preset exports 320 × 400 px.", tips: ["Recent colour photo on a light background.", "Face clearly visible, no cap or dark glasses."] },
       { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 300, height: 120, dimensionNote: "Maximum 20 KB as reported. Our preset exports 300 × 120 px (wide, 5:2).", tips: ["Sign in black or blue ink on white paper.", "Crop close to the signature with a thin white margin."] },
@@ -911,13 +911,13 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "PET is the gateway exam for most Group C posts in Uttar Pradesh, and its score is used for later UPSSSC recruitments — so lakhs of candidates fill this form. The notice gives the photo and signature in centimetres, which this page converts to pixels for you.",
+      "PET is the gateway exam for most Group C posts in Uttar Pradesh, and its score is used for later UPSSSC recruitments, so lakhs of candidates fill this form. The notice gives the photo and signature in centimetres, which this page converts to pixels for you.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 276, height: 354, dpi: 200, dimensionNote: "3.5 × 4.5 cm. Our preset exports 276 × 354 px at 200 DPI.", tips: ["White or light plain background.", "Recent colour photo, face covering most of the frame."] },
       { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 276, height: 118, dpi: 200, dimensionNote: "3.5 × 1.5 cm. Our preset exports 276 × 118 px at 200 DPI.", tips: ["Black ink on white paper.", "Keep the whole signature inside the frame."] },
     ],
     notes: [
-      "We could not find the official PET notice text for these values — confirm them on upsssc.gov.in before submitting.",
+      "We could not find the official PET notice text for these values. Confirm them on upsssc.gov.in before submitting.",
       "Use the same photo you will carry on exam day; the admit card is matched against it.",
     ],
     faqs: [
@@ -937,7 +937,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "TNPSC uses a One Time Registration (OTR) where your photo and signature are stored and reused for every application. Several guides say the photo should show your name and the date it was taken — this page lets you add both.",
+      "TNPSC uses a One Time Registration (OTR) where your photo and signature are stored and reused for every application. Several guides say the photo should show your name and the date it was taken, and this page lets you add both.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 276, height: 354, dpi: 200, dimensionNote: "3.5 × 4.5 cm. Guides give different pixel sizes; our preset exports 276 × 354 px at 200 DPI.", tips: ["Name and date of photograph printed at the bottom, as many guides advise.", "Light plain background."] },
       { kind: "signature", label: "Signature", minKB: 10, maxKB: 20, width: 200, height: 80, dimensionNote: "Pixel sizes vary between guides (200 × 80 to 200 × 100 px). Our preset exports 200 × 80 px.", tips: ["Black or blue ink on unruled white paper."] },
@@ -963,13 +963,13 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "CSBC Bihar forms set a narrow 15–25 KB window for the photo and the signature — and ask for your signature twice, once in English and once in Hindi. Both signatures follow the same size rule.",
+      "CSBC Bihar forms set a narrow 15–25 KB window for the photo and the signature, and ask for your signature twice, once in English and once in Hindi. Both signatures follow the same size rule.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 15, maxKB: 25, width: 276, height: 354, dpi: 200, dimensionNote: "No pixel size in the notice as reported. Our preset exports 3.5 × 4.5 cm (276 × 354 px at 200 DPI).", tips: ["Recent colour photo on a light background."] },
       { kind: "signature", label: "Signature (English and Hindi)", minKB: 15, maxKB: 25, width: 276, height: 118, dpi: 200, dimensionNote: "15–25 KB each. Our preset exports 3.5 × 1.5 cm (276 × 118 px).", tips: ["Make two files: one signature in English, one in Hindi.", "Black ink on white paper."] },
     ],
     notes: [
-      "Because the minimum is 15 KB, small signature files are often rejected as too small — the tool pads them to the minimum automatically.",
+      "Because the minimum is 15 KB, small signature files are often rejected as too small. The tool pads them to the minimum automatically.",
       "Some sites list wider limits (20–200 KB). Follow the advertisement for your post.",
     ],
     faqs: [
@@ -988,7 +988,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "JEE Main has generous file limits, but NTA is strict about the photo itself: it must be recent, in colour, with a clear face — and it is checked against you at the centre. Photo mismatch notices are common, so prepare it carefully.",
+      "JEE Main has generous file limits, but NTA is strict about the photo itself: it must be recent, in colour, with a clear face, and it is checked against you at the centre. Photo mismatch notices are common, so prepare it carefully.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 10, maxKB: 200, width: 413, height: 531, dpi: 300, dimensionNote: "Passport size (3.5 × 4.5 cm). Our preset exports 413 × 531 px at 300 DPI.", tips: ["Recent colour photo, white background, 80% face coverage, ears visible.", "No caps, dark glasses or filters."] },
       { kind: "signature", label: "Signature", minKB: 10, maxKB: 100, width: 413, height: 177, dpi: 300, dimensionNote: "No fixed pixel size reported. Our preset exports 3.5 × 1.5 cm (413 × 177 px).", tips: ["Sign on white paper with a black pen, in running hand."] },
@@ -1040,11 +1040,11 @@ export const exams: Exam[] = [
     intro:
       "The CCC certificate is required for many UP and central government jobs. NIELIT gives small, exact pixel sizes for the photo, and it cancels applications where the wrong photo is uploaded in the photo box.",
     docs: [
-      { kind: "photo", label: "Photograph", minKB: 5, maxKB: 50, width: 132, height: 170, dpi: 96, dimensionNote: "3.5 × 4.5 cm, 132 × 170 px, 96–300 DPI.", tips: ["White background, recent colour photo (NIELIT says not older than six months).", "Upload it in the photo field — not the signature field."] },
+      { kind: "photo", label: "Photograph", minKB: 5, maxKB: 50, width: 132, height: 170, dpi: 96, dimensionNote: "3.5 × 4.5 cm, 132 × 170 px, 96–300 DPI.", tips: ["White background, recent colour photo (NIELIT says not older than six months).", "Upload it in the photo field, not the signature field."] },
       { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 140, height: 60, dpi: 96, dimensionNote: "5–20 KB, 96–200 DPI. Our preset exports 140 × 60 px.", tips: ["Black or blue ink on white paper."] },
     ],
     notes: [
-      "NIELIT has cancelled applications where the photograph was uploaded in the wrong place — check the preview before you pay.",
+      "NIELIT has cancelled applications where the photograph was uploaded in the wrong place, so check the preview before you pay.",
       "The signature limit is inferred from the guideline layout; confirm it on the application form.",
     ],
     faqs: [
@@ -1063,7 +1063,7 @@ export const exams: Exam[] = [
     lastChecked: "2026-11-22",
     livePhoto: false,
     intro:
-      "New PAN and PAN correction forms ask for a scanned photo and signature in centimetres at 200 DPI. Phone cropping apps often change the DPI, which is why uploads fail — this tool writes 200 DPI into the file.",
+      "New PAN and PAN correction forms ask for a scanned photo and signature in centimetres at 200 DPI. Phone cropping apps often change the DPI, which is why uploads fail. This tool writes 200 DPI into the file.",
     docs: [
       { kind: "photo", label: "Photograph", minKB: 5, maxKB: 50, width: 197, height: 276, dpi: 200, dimensionNote: "2.5 × 3.5 cm at 200 DPI = 197 × 276 px.", tips: ["White background, colour photo, face clearly visible."] },
       { kind: "signature", label: "Signature", minKB: 5, maxKB: 50, width: 354, height: 157, dpi: 200, dimensionNote: "4.5 × 2 cm at 200 DPI = 354 × 157 px.", tips: ["Sign on white paper with a dark pen, inside the box area."] },

@@ -52,7 +52,7 @@ export const tools: ToolLink[] = [
   {
     href: "/tools/passport-size-photo-maker",
     title: "Passport size photo maker",
-    description: "White background, 3.5 × 4.5 cm crop and a 4×6 print sheet — made on your phone.",
+    description: "White background, 3.5 × 4.5 cm crop and a 4×6 print sheet, all made on your phone.",
     group: "maker",
   },
   {
@@ -104,7 +104,7 @@ export const tools: ToolLink[] = [
   {
     href: "/tools/kb-to-mb",
     title: "KB to MB converter",
-    description: "Convert between bytes, KB and MB — in both 1024 and 1000 based units.",
+    description: "Convert between bytes, KB and MB, in both 1024 and 1000 based units.",
     group: "converter",
   },
 ];

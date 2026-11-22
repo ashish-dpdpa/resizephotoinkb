@@ -1,4 +1,6 @@
-# FormReady — exam photo & signature tools
+# ResizePhotoInKB — exam photo & signature tools
+
+Live domain: https://www.resizephotoinkb.com
 
 Next.js 15 + TypeScript + Tailwind. Every page is static HTML (SSG). All image processing runs in the browser.
 

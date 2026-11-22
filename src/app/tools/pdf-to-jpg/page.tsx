@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 const path = "/tools/pdf-to-jpg";
 
 export const metadata = pageMetadata({
-  title: "PDF to JPG Converter — Under 100 KB per Page",
+  title: "PDF to JPG Converter: Under 100 KB per Page",
   description: "Convert each page of a PDF into a JPG image at 100–300 DPI, with an optional size limit like 100 KB per page. Free, works on phones, no upload.",
   path,
 });
@@ -19,7 +19,7 @@ export default function PdfToJpgPage() {
       kicker="PDF"
       intro="Some forms want a certificate as a JPG, not a PDF. Add the PDF and download every page as a separate JPG image."
       tool={<PdfToJpg />}
-      steps={["Add your PDF.", "Choose the resolution — 150 DPI suits most forms.", "Set a size limit per page if your form has one.", "Convert and download the pages you need."]}
+      steps={["Add your PDF.", "Choose the resolution. 150 DPI suits most forms.", "Set a size limit per page if your form has one.", "Convert and download the pages you need."]}
       faqs={[
         { q: "Which DPI should I choose?", a: "150 DPI is clear and small. Use 200–300 DPI only if the form asks for it or you need to print." },
         { q: "How do I get a page under 100 KB?", a: "Choose the 100 KB target before converting. Each page is compressed to fit." },

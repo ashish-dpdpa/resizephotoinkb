@@ -7,7 +7,7 @@ const path = "/tools/compress-pdf";
 
 export const metadata = pageMetadata({
   title: "Compress PDF to 100 KB, 200 KB, 500 KB or 1 MB",
-  description: "Shrink a PDF to the exact size a government or exam portal allows — 100 KB, 200 KB, 500 KB or 1 MB — without uploading it anywhere.",
+  description: "Shrink a PDF to the exact size a government or exam portal allows (100 KB, 200 KB, 500 KB or 1 MB) without uploading it anywhere.",
   path,
 });
 
@@ -34,7 +34,7 @@ export default function CompressPdfPage() {
       <h2>Why PDFs get too big</h2>
       <p>
         Phone scanners save each page as a large colour photo. A single A4 page at full phone resolution can be 2–4 MB. Lowering it to
-        about 150 DPI keeps text sharp on screen and cuts the size dramatically — that is what this tool does.
+        about 150 DPI keeps text sharp on screen and cuts the size dramatically. That is what this tool does.
       </p>
     </ToolPage>
   );

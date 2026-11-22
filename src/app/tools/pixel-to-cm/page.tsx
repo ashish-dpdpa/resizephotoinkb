@@ -22,7 +22,7 @@ export default function PixelToCmPage() {
       tool={<PixelConverter />}
       steps={[
         "Choose cm, mm or inch.",
-        "Set the DPI — 200 is common for exam forms, 300 for printing, 96 for screens.",
+        "Set the DPI. 200 is common for exam forms, 300 for printing, 96 for screens.",
         "Type the pixels to get cm, or type cm to get pixels.",
         "Use the result in the photo resizer if you need to make the image.",
       ]}

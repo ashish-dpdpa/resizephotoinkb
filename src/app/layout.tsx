@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
 import { buildSearchIndex } from "@/lib/search";
+import { buildNavMenus } from "@/lib/nav";
+import { exams } from "@/lib/exams";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
 const body = Public_Sans({ subsets: ["latin"], variable: "--font-public", display: "swap" });
@@ -17,7 +19,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — Exam Photo & Signature Resizer, Exact KB`,
+    default: `${siteConfig.name}: Exam Photo & Signature Resizer, Exact KB`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -50,7 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-card focus:px-3 focus:py-2">
           Skip to content
         </a>
-        <Header searchIndex={searchIndex} />
+        <Header searchIndex={searchIndex} menus={buildNavMenus()} examCount={exams.length} />
         <main id="main" className="flex-1">{children}</main>
         <Footer />
         <JsonLd
@@ -68,7 +70,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               "@type": "Organization",
               name: siteConfig.name,
               url: siteConfig.url,
-              email: siteConfig.contactEmail,
             },
           ]}
         />

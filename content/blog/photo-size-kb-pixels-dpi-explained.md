@@ -1,43 +1,36 @@
 ---
 title: "Photo Size Explained: KB vs Pixels vs Centimetres vs DPI"
-description: "Exam notices mix KB, pixels, cm and DPI. Learn what each one means, how to convert 3.5 × 4.5 cm to pixels, and which number the upload portal actually checks."
+description: "Exam notices mix KB, pixels, cm and DPI in one line. What each one means, how to turn 3.5 × 4.5 cm into pixels, and which number the upload portal actually checks."
 date: "2026-11-18"
 category: "Photo guides"
 tags: ["dpi", "pixels", "photo size", "3.5x4.5 cm"]
 ---
 
-Exam notifications describe photos in four different ways, often in the same sentence: "3.5 cm × 4.5 cm, 200 × 230 pixels, 20–50 KB, 200 DPI". They are related, but they are not the same thing. Mixing them up is the most common reason students struggle with uploads.
+Here's a line you'll find, give or take, in a lot of exam notices: *photograph 3.5 cm × 4.5 cm, 200 × 230 pixels, 20 to 50 KB, 200 DPI.* Four different units in one sentence. They're related, but they're not the same thing, and mixing them up is behind most of the upload errors students run into.
 
-## The four units in one table
+Let's take them one at a time.
 
-| Unit | What it measures | Example | Checked by the portal? |
-|---|---|---|---|
-| **KB** (kilobytes) | How big the file is on disk | 20–50 KB | Almost always |
-| **Pixels** | How many dots wide and tall the image is | 200 × 230 px | Often |
-| **Centimetres / inches** | The printed size | 3.5 × 4.5 cm | Rarely (it depends on DPI) |
-| **DPI** | Dots per inch when printed | 200 DPI | Rarely |
+## KB is how heavy the file is
 
-The portal can read the file size and pixel dimensions directly, so those are the two numbers that cause "invalid file" errors. Centimetres and DPI matter mainly for how the photo prints on your admit card.
+KB (kilobytes) is the amount of storage the file takes up. It has nothing directly to do with how big the picture looks.
 
-## KB: file size
+That's why the same photo can be 18 KB or 90 KB depending on how much it's compressed and how much detail is in it. A photo against a plain white wall will always come out smaller than the same photo against a bookshelf.
 
-KB measures storage, not picture size. Two images with exactly the same pixels can have very different KB values depending on how much detail they contain and how strongly they are compressed. That is why the same photo can be 18 KB or 90 KB.
+One small trap: some portals count 1 KB as 1024 bytes and some as 1000. If you aim a little inside the range, say 25 to 48 KB for a 20 to 50 KB limit, you never have to think about it.
 
-1 KB = 1024 bytes. Some portals count 1 KB as 1000 bytes. To be safe, aim a little inside the range — for a 20–50 KB limit, target about 25–48 KB.
+## Pixels are how big the picture is
 
-## Pixels: dimensions
+Pixels are the tiny dots the image is made of. "200 × 230" means 200 dots wide and 230 tall, and width always comes first.
 
-Pixels are the dots that make up the image. "200 × 230" means 200 pixels wide and 230 tall. Always write width first.
+When a portal says "invalid dimensions", this is the number it's unhappy with. Strict portals want the exact numbers, so 201 × 230 can fail where 200 × 230 passes.
 
-If the portal says "invalid dimensions", it is checking pixels. Use exactly the numbers in the notice; 201 × 230 can fail a strict check.
+## Centimetres and DPI are about printing
 
-## Centimetres and DPI: print size
+A digital photo doesn't have a size in centimetres until you decide how many pixels go into each inch. That's all DPI (dots per inch) means. The conversion is:
 
-A digital image has no physical size until you decide how many pixels go in each inch. That is what DPI (dots per inch) means. The formula is:
+**pixels = cm ÷ 2.54 × DPI**
 
-**pixels = (cm ÷ 2.54) × DPI**
-
-So a 3.5 cm × 4.5 cm photo at different DPI values is:
+So the familiar 3.5 × 4.5 cm passport size works out like this:
 
 | DPI | Width (3.5 cm) | Height (4.5 cm) |
 |---|---|---|
@@ -46,27 +39,32 @@ So a 3.5 cm × 4.5 cm photo at different DPI values is:
 | 200 | 276 px | 354 px |
 | 300 | 413 px | 531 px |
 
-If a notice gives only centimetres, check whether it also mentions a DPI. If it does, use the formula. If it does not, 200 DPI is a reasonable choice for exam photos — it keeps the file small and still prints clearly at passport size.
+If your notice only gives centimetres, look for a DPI nearby and use the formula. If there's no DPI either, 200 is a sensible default for exam photos. It keeps the file small and still prints clearly at passport size.
 
-## Why does the DPI in my file not match?
+## Which number does the portal really check?
 
-Every JPG stores a DPI value in its header, but most phones write 72 DPI regardless of the pixel size. A few portals read this value. Our [photo resizer](/tools/photo-resizer) writes the DPI from the exam preset (for example 200 DPI for IBPS) into the file header so it matches.
+| Unit | What it measures | Checked by the portal? |
+|---|---|---|
+| KB | File size | Almost always |
+| Pixels | Width and height | Often |
+| cm | Printed size | Rarely on its own |
+| DPI | Pixels per inch | Sometimes |
 
-## Putting it together
+KB and pixels are what cause rejections. Centimetres and DPI mostly decide how the photo looks when it's printed on your admit card.
 
-When you read a notice:
+## Why does my photo say 72 DPI?
 
-1. **Pixels given?** Use them exactly.
-2. **Only cm given?** Convert with the formula above (use the DPI if stated, otherwise 200).
-3. **Nothing given?** Keep a passport shape (about 4:5) and stay within the KB range.
-4. **Always** stay within both the minimum and maximum KB.
+Every JPG stores a DPI value inside it, and most phones write 72 no matter how big the photo is. A few portals, PAN card forms in particular, read that value and complain. Our [photo resizer](/tools/photo-resizer) and [DPI converter](/tools/dpi-converter) write the DPI your form asks for, like 200, straight into the file.
 
-The [photo resizer](/tools/photo-resizer) and [signature resizer](/tools/signature-resizer) handle the pixel size and KB range together, so you do not have to calculate anything once you have the numbers.
+## The short version
 
-## Quick answers
+When you read a notice, ask yourself in this order:
 
-**What is 3.5 × 4.5 cm in pixels?** About 276 × 354 px at 200 DPI, or 413 × 531 px at 300 DPI.
+1. Does it give pixels? Use them exactly.
+2. Only centimetres? Convert with the formula, using the stated DPI or 200.
+3. Nothing at all? Keep a passport shape, roughly 4:5, and just stay inside the KB range.
+4. In every case, respect both the minimum and the maximum KB.
 
-**What is 2 × 2 inch in pixels?** 600 × 600 px at 300 DPI (common for visa photos).
+If you'd rather not do the maths, the [resize in cm](/tools/resize-image-in-cm) tool takes centimetres and DPI directly, and the [pixel to cm converter](/tools/pixel-to-cm) shows the numbers both ways.
 
-**Does a bigger KB mean better quality?** Usually, for the same pixel size — but only up to a point. A well-compressed 40 KB photo can look identical to a 400 KB one at exam-photo dimensions.
+A few conversions people search for a lot: 3.5 × 4.5 cm is about 276 × 354 px at 200 DPI, or 413 × 531 px at 300 DPI. A 2 × 2 inch photo is 600 × 600 px at 300 DPI.

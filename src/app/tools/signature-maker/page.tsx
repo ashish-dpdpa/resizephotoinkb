@@ -7,7 +7,7 @@ const path = "/tools/signature-maker";
 const title = "Online Signature Maker";
 
 export const metadata = pageMetadata({
-  title: "Online Signature Maker — Draw & Download Signature JPG",
+  title: "Online Signature Maker: Draw & Download Signature JPG",
   description:
     "Draw your signature with your finger or mouse and download it as a JPG sized for online forms (140×60 px, 10–20 KB and more). Free, no sign-up.",
   path,

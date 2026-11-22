@@ -26,7 +26,7 @@ export const docGuide: Record<DocKind, { prepare: string[]; mistakes: string[] }
       "Stand in front of a plain white or light wall, facing a window in daylight.",
       "Hold the phone at eye level about an arm's length away and look straight at the lens.",
       "Remove caps and dark glasses; keep both ears visible and a neutral expression.",
-      "Use the normal camera mode — no beauty filters or portrait blur.",
+      "Use the normal camera mode, without beauty filters or portrait blur.",
     ],
     mistakes: [
       "Face too small because the photo was resized without cropping.",
@@ -55,7 +55,7 @@ export const docGuide: Record<DocKind, { prepare: string[]; mistakes: string[] }
       "In the tool, crop tightly and raise the background removal until the paper is pure white.",
     ],
     mistakes: [
-      "Signature in CAPITAL letters — rejected by SSC and banking forms.",
+      "Signing in CAPITAL letters, which SSC and banking forms reject.",
       "Faint pen strokes that vanish after compression.",
       "Ruled notebook lines visible in the image.",
       "File below the minimum KB because a clean signature compresses very small.",
@@ -63,7 +63,7 @@ export const docGuide: Record<DocKind, { prepare: string[]; mistakes: string[] }
   },
   thumb: {
     prepare: [
-      "Use a stamp pad with blue or black ink — not too much ink.",
+      "Use a stamp pad with blue or black ink, and don't overload it.",
       "Roll the thumb once gently on white paper; do not slide it.",
       "Photograph from directly above and use the clean-background option.",
     ],
@@ -75,7 +75,7 @@ export const docGuide: Record<DocKind, { prepare: string[]; mistakes: string[] }
   },
   declaration: {
     prepare: [
-      "Copy the exact declaration text from the notification — do not change any words.",
+      "Copy the exact declaration text from the notification without changing a word.",
       "Write in English in running hand on white paper with a black pen.",
       "Photograph the whole text from directly above and clean the background in the tool.",
     ],

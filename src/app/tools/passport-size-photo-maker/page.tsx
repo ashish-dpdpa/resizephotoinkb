@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 const path = "/tools/passport-size-photo-maker";
 
 export const metadata = pageMetadata({
-  title: "Passport Size Photo Maker Online — White Background",
+  title: "Passport Size Photo Maker Online: White Background",
   description: "Make a 3.5 × 4.5 cm passport size photo with a white background on your phone, then download it or a 4×6 print sheet. Free, nothing uploaded.",
   path,
 });
@@ -26,7 +26,7 @@ export default function PassportPhotoPage() {
       intro="Take a photo against any wall, turn the background white on your device, crop it to passport size, and download a single photo for forms or a 4×6 sheet to print at a photo shop."
       tool={<ImageTool presets={presets} printSheet captionMode={false} fileBaseName="passport-photo" />}
       steps={[
-        "Choose the size — 3.5 × 4.5 cm is the Indian passport size.",
+        "Choose the size. 3.5 × 4.5 cm is the Indian passport size.",
         "Add a front-facing photo taken in good light.",
         "Turn on White background, then drag and zoom so your face fills about 70–80% of the height.",
         "Download the photo, or the 4×6 inch print sheet with several copies.",
@@ -41,7 +41,7 @@ export default function PassportPhotoPage() {
       <h2>Tips for a good passport photo</h2>
       <ul>
         <li>Face the camera straight, eyes open, mouth closed, both ears visible.</li>
-        <li>Light from the front — sit facing a window. Avoid shadows on the face.</li>
+        <li>Light from the front: sit facing a window. Avoid shadows on the face.</li>
         <li>Remove caps and dark glasses. Keep hair away from the face.</li>
       </ul>
       <p>

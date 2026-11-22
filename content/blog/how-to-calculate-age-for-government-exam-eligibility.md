@@ -7,27 +7,25 @@ category: "Eligibility"
 tags: ["age limit", "age calculator", "relaxation", "eligibility"]
 ---
 
-Every recruitment notice has an age limit, and every year some candidates apply only to be rejected because they misread it by a single day. Age eligibility is simple once you understand the rules behind the wording.
+Every recruitment notice has an age limit, and every year a few people get rejected because they misread it by a single day. The wording is the problem more than the maths. Once you know how notices phrase it, it's simple.
 
-## "Age as on" — the cut-off date
+## The cut-off date
 
-Notices say something like: *"Age limit: 18–27 years as on 01.08.2026."* That date is the **cut-off date**. Your age is calculated on that day only — not on the day you apply, not on the exam date.
+A notice will say something like *"Age limit: 18 to 27 years as on 01.08.2026."* That date is the cut-off. Your age is worked out on that day and no other. Not the day you apply, and not the exam date.
 
-Your date of birth is taken from your **matriculation (10th) certificate** or equivalent. Most bodies do not accept a different date from other documents.
+The date of birth that counts is the one on your 10th certificate. Most recruiting bodies won't accept a different date from another document, so don't go by your Aadhaar if the two disagree.
 
-## Reading the upper limit correctly
+## What "up to 27 years" really means
 
-This is where most mistakes happen.
+This is where people slip up. An upper limit of 27 means you must **not have completed 28** on the cut-off date. So you're still eligible on the day before your 28th birthday.
 
-An upper limit of **27 years** means you must **not have completed 28 years** on the cut-off date. You are still eligible on the day before your 28th birthday.
+The lower limit works the other way. 18 means you must **have completed 18** on or before the cut-off date.
 
-A lower limit of **18 years** means you must **have completed 18 years** on or before the cut-off date.
+Put together, for 18 to 27 as on 1 August 2026, the eligible birth dates run from **2 August 1998 to 1 August 2008**, both included. Many notices print this range directly, something like *"born not before 02.08.1998 and not later than 01.08.2008."* If yours does, go by that range. It leaves no room for argument.
 
-So for 18–27 years as on 1 August 2026, the eligible birth dates are those from **2 August 1998 to 1 August 2008**, both inclusive. Notices often print this range directly, for example *"born not before 02.08.1998 and not later than 01.08.2008"*. When a notice gives the date range, **trust the date range** — it removes any ambiguity.
+## How relaxation is added
 
-## How relaxation works
-
-Reserved categories get extra years added to the **upper** age limit only. The lower limit does not change. The usual central government relaxations are:
+Reserved categories get extra years on the **upper** limit. The lower limit doesn't move. For central government jobs the usual numbers are:
 
 | Category | Typical relaxation |
 |---|---|
@@ -36,33 +34,26 @@ Reserved categories get extra years added to the **upper** age limit only. The l
 | PwBD (General / EWS) | 10 years |
 | PwBD (OBC) | 13 years |
 | PwBD (SC / ST) | 15 years |
-| Ex-servicemen | Usually length of service + 3 years (varies) |
+| Ex-servicemen | Usually service length plus 3 years (varies) |
 
-State government exams and some posts use **different** values, and some posts have no relaxation at all. Always check the relaxation table in your own notification.
+State jobs and some individual posts use different numbers, and a few posts have no relaxation at all, so check the relaxation table in your own notice.
 
-Example: an OBC candidate applying for a post with a 27-year limit can apply until they complete 27 + 3 = 30 years, i.e. until the day before their 31st birthday.
+As an example, an OBC candidate applying for a post with a 27-year limit can apply until they complete 30, which means up to the day before their 31st birthday.
 
 ## A worked example
 
-- Date of birth: 15 March 1997
-- Cut-off: 1 August 2026
-- Limit: 18–27 years, OBC relaxation 3 years
+Say your date of birth is 15 March 1997, the cut-off is 1 August 2026, the limit is 18 to 27, and you're OBC.
 
-Age on 1 August 2026 = 29 years, 4 months, 17 days. The upper limit with relaxation is 30, and the candidate has not completed 31, so they are **eligible**. Without OBC relaxation, they would not be.
+On 1 August 2026 you're 29 years, 4 months and 17 days old. With 3 years of OBC relaxation your upper limit becomes 30, and you haven't completed 31, so you're **eligible**. Without the relaxation you wouldn't be.
 
-Our [age calculator](/tools/age-calculator) does this for you and also shows the eligible date-of-birth range so you can compare it directly with the notice.
+You can check your own case with the [age calculator](/tools/age-calculator). It also shows the exact birth-date range the limit allows, so you can hold it up against the notice.
 
-## Common mistakes
+## Mistakes we see often
 
-1. **Using the exam date or today's date** instead of the cut-off date.
-2. **Thinking "27 years" means up to your 27th birthday.** It means until you complete 28.
-3. **Applying relaxation to the lower limit.** It applies only to the upper limit.
-4. **Adding two relaxations together** without checking. Some combinations are allowed (like PwBD + OBC), many are not.
-5. **Using a date of birth from Aadhaar** that differs from the 10th certificate.
+1. Using the exam date or today's date instead of the cut-off date.
+2. Reading "27 years" as "until my 27th birthday". It means until you complete 28.
+3. Applying relaxation to the lower limit. It only ever applies to the upper one.
+4. Adding two relaxations together without checking whether the notice allows it. Some combinations, like PwBD plus OBC, are allowed. Many aren't.
+5. Using an Aadhaar date of birth that doesn't match the 10th certificate.
 
-## Before you apply
-
-- Find the cut-off date and the date-of-birth range in the notice.
-- Check whether your category relaxation applies to this specific post.
-- Use the [age calculator](/tools/age-calculator) to confirm.
-- Then prepare your uploads with the [photo resizer](/tools/photo-resizer) and [signature resizer](/tools/signature-resizer).
+Once you're sure you're eligible, get your uploads ready with the [photo resizer](/tools/photo-resizer) and [signature resizer](/tools/signature-resizer).

@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 const path = "/tools/image-to-pdf";
 
 export const metadata = pageMetadata({
-  title: "Image to PDF Converter — JPG to PDF Under 200 KB",
+  title: "Image to PDF Converter: JPG to PDF Under 200 KB",
   description: "Convert JPG, PNG or phone photos into one A4 PDF, with an optional size limit like 100 KB or 200 KB for government forms. Free and private.",
   path,
 });
@@ -17,7 +17,7 @@ export default function ImageToPdfPage() {
       title="Image to PDF Converter"
       path={path}
       kicker="PDF"
-      intro="Photograph your certificates or mark sheets, add the pictures here, and get one tidy A4 PDF — under the size limit your form sets, if it has one."
+      intro="Photograph your certificates or mark sheets, add the pictures here, and get one tidy A4 PDF that fits your form's size limit, if it has one."
       tool={<ImageToPdf />}
       steps={[
         "Add your photos or scanned pages (JPG, PNG or WebP).",
@@ -35,7 +35,7 @@ export default function ImageToPdfPage() {
       <ul>
         <li>Photograph each page flat, in daylight, from straight above so the text isn’t slanted.</li>
         <li>Crop out the table and background before adding the photo.</li>
-        <li>Add only the pages the form asks for — every extra page adds size.</li>
+        <li>Add only the pages the form asks for. Every extra page adds size.</li>
       </ul>
       <p>
         Fixed limit? Use <Link href="/tools/jpg-to-pdf-under-100kb">JPG to PDF under 100 KB</Link> or{" "}

@@ -130,7 +130,7 @@ export default function SignatureMaker() {
         aria-label="Signature drawing area"
         className="mt-4 h-48 w-full touch-none rounded-xl border-2 border-dashed border-line-2 bg-white sm:h-56"
       />
-      <p className="mt-2 text-xs text-ink-3">Sign inside the box with your finger, stylus or mouse. Make it large — it will be scaled down.</p>
+      <p className="mt-2 text-xs text-ink-3">Sign inside the box with your finger, stylus or mouse. Make it large; it will be scaled down.</p>
 
       <div className="mt-4 flex flex-wrap items-end gap-3">
         <label className="text-sm">

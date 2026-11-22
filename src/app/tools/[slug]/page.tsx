@@ -118,7 +118,7 @@ export default async function SizeToolPage({ params }: { params: Promise<{ slug:
                 <Link href={p.path}>
                   {p.exam.name} {docNoun[p.doc.kind].toLowerCase()}
                 </Link>{" "}
-                — {p.doc.minKB}–{p.doc.maxKB} KB, {p.doc.width} × {p.doc.height} px
+                ({p.doc.minKB}–{p.doc.maxKB} KB, {p.doc.width} × {p.doc.height} px)
               </li>
             ))}
           </ul>

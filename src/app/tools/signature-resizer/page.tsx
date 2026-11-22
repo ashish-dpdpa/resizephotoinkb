@@ -8,7 +8,7 @@ const path = "/tools/signature-resizer";
 const title = "Signature Resizer for Online Forms";
 
 export const metadata = pageMetadata({
-  title: "Signature Resizer — Resize Signature to 10–20 KB, 140×60 px",
+  title: "Signature Resizer: Resize Signature to 10–20 KB, 140×60 px",
   description:
     "Resize a scanned or photographed signature for SSC, IBPS, RRB, UP Police and NEET forms. Removes the grey paper background and hits the exact KB range.",
   path,
@@ -19,7 +19,7 @@ export default function SignatureResizerPage() {
     <ToolPage
       title={title}
       path={path}
-      intro="Photograph your signature on white paper, pick your exam, and get a clean, sharp JPG at the right pixel size and KB range — including forms that need a minimum of 30 KB."
+      intro="Photograph your signature on white paper, pick your exam, and get a clean, sharp JPG at the right pixel size and KB range, including forms that need a minimum of 30 KB."
       tool={<ImageTool presets={presetsFor(["signature", "thumb", "declaration"])} fileBaseName="signature" />}
       steps={[
         "Sign on plain white paper with a black (or blue) pen. Sign the way you normally do, not in capital letters.",
@@ -39,14 +39,14 @@ export default function SignatureResizerPage() {
         },
         {
           q: "Can I make my signature on the phone instead?",
-          a: "Yes — use our signature maker to draw it with your finger. Some exams require a signature on paper, so check your notification.",
+          a: "Yes, use our signature maker to draw it with your finger. Some exams require a signature on paper, so check your notification.",
         },
       ]}
     >
       <h2>Tips for a signature that gets accepted first time</h2>
       <ul>
         <li>Use a fresh pen with dark ink; faint ballpoint lines can vanish when the image is compressed.</li>
-        <li>Avoid shadows from your hand or phone — shoot near a window in daylight.</li>
+        <li>Avoid shadows from your hand or phone. Shoot near a window in daylight.</li>
         <li>Leave a small white margin around the signature so it is not cut off.</li>
         <li>Use the same signature in the exam hall and on every document.</li>
       </ul>

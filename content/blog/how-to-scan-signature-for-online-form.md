@@ -1,81 +1,66 @@
 ---
 title: "How to Scan Your Signature for an Online Form Using Only Your Phone"
 seoTitle: "How to Scan a Signature for Online Forms on Your Phone"
-description: "Get a clean, white-background signature JPG at the right size for SSC, IBPS, railway and NEET forms — no scanner needed. Includes thumb impression and declaration tips."
+description: "Get a clean, white-background signature JPG at the right size for SSC, IBPS, railway and NEET forms with just your phone. Thumb impression and declaration tips included."
 date: "2026-11-14"
 category: "Signature guides"
 tags: ["signature", "scan signature", "thumb impression", "handwritten declaration"]
 ---
 
-You do not need a scanner to produce a signature image that exam portals accept. A phone camera, a sheet of white paper and two minutes are enough. The trick is in the preparation and in cleaning the image afterwards.
+You don't need a scanner, and you don't need to visit a cyber café. A sheet of paper, a dark pen and your phone camera are enough. Most of the work is in how you sign and how you take the photo. The cleaning up afterwards is the easy part.
 
-## What you need
+## Sign it properly first
 
-- A sheet of **plain white** A4 paper (not ruled, not a notebook page)
-- A **black** ink pen, gel or fountain — or blue if your notice asks for it
-- Daylight from a window, or a bright room light behind you
-- Your phone
+Use a sheet of plain white A4 paper. Not a notebook page, because the blue lines tend to survive into the final image. A black gel or ink pen works best, unless your notice specifically asks for blue.
 
-## Step 1: Sign properly
+Sign the way you sign on any official paper. Don't switch to capital letters to make it look neat. SSC and bank notices say outright that signatures in capitals aren't accepted, and you'll have to reproduce the same signature in the exam hall anyway.
 
-- Sign the way you normally sign on official documents. **Do not sign in capital letters** — SSC and IBPS notices say such signatures are rejected.
-- Sign a little larger than usual, about 6–8 cm wide. A larger signature keeps more detail when it is scaled down.
-- Press firmly so the line is dark and even. Faint lines disappear during compression.
-- Sign three or four times on the sheet so you can pick the best one.
+Make it a little bigger than usual, around 6 to 8 cm wide. A bigger signature keeps more detail when it's shrunk down. Press firmly so the line is dark and even, and sign three or four times so you can pick the best one.
 
-If your exam asks for three signatures in one image (UPSC does), sign three times one below the other, leaving equal space between them.
+UPSC is a special case. It wants three signatures on one sheet, one below the other, scanned together as a single image.
 
-## Step 2: Photograph it without shadows
+## Take the photo without shadows
 
-- Place the paper on a flat table near a window.
-- Hold the phone directly above the paper, parallel to it. A tilted phone makes the signature look slanted.
-- Make sure the shadow of your hand or phone does not fall on the paper.
-- Tap the signature on screen to focus, then take the photo. Do not use the flash — it creates a bright spot.
+Put the paper on a table near a window. Hold the phone directly above it, parallel to the paper. If the phone is tilted, the signature comes out slanted and squashed.
 
-## Step 3: Clean and resize
+Watch where your hand and the phone are. Their shadow falling across the paper is the most common reason a signature image looks grey and dirty. Tap the signature on the screen to focus, and leave the flash off, because it puts a bright patch in the middle.
 
-Open the [signature resizer](/tools/signature-resizer) and choose your exam preset. Then:
+## Clean it and resize it
 
-1. Upload the photo.
-2. Use **Zoom** and **Move** to frame the signature tightly, leaving a small white margin.
-3. Turn on **Clean background** if it is not already on. Increase the strength until the grey paper becomes pure white, but stop before thin strokes start breaking.
-4. Optionally choose **Make it black** to turn the ink a solid colour.
-5. Check the result says **"within limit"** and download.
+Open the [signature resizer](/tools/signature-resizer) and pick your exam. Then:
 
-The result is a crisp signature on a pure white background at the exact pixels and KB range your form needs.
+1. Add the photo.
+2. Zoom and drag until the signature fills the frame with a thin white margin around it.
+3. Make sure **Clean paper background** is on. Slide the strength up until the grey paper turns pure white, and stop before the thin strokes start breaking up.
+4. If you like, choose black ink to make the colour even.
+5. Download when the meter says within limit.
+
+What you end up with is a sharp signature on clean white, at the exact pixels and KB your form wants.
 
 ## Why is my signature only 5 KB?
 
-A clean black-on-white image compresses extremely well, so a 140 × 60 px signature may be just a few KB. If your form has a minimum (10 KB for many forms, 30 KB for RRB NTPC and UP Police), our tool adds padding to the file to reach it. The image looks exactly the same.
+Black ink on white paper compresses very well, so a 140 × 60 pixel signature can easily be just a few KB. Many forms have a minimum though: 10 KB for most, and 30 KB for RRB NTPC and UP Police. The tool adds padding inside the file to reach the minimum. The picture doesn't change, and portals read it like any other JPG.
 
 ## Thumb impressions
 
-Banking forms and NEET ask for a thumb impression.
+Bank forms and NEET ask for a thumb impression as well. Use a stamp pad, and go easy on the ink. You want to see the ridges, not a solid blue blob. Roll your thumb once onto white paper without sliding it, then photograph and clean it the same way as the signature. The IBPS preset uses 240 × 240 px at 200 DPI.
 
-- Use a stamp pad with blue or black ink. Do not use too much ink — the ridges should be clearly visible, not a solid blob.
-- Roll your thumb gently once on white paper; do not slide it.
-- Photograph and clean it the same way as a signature. The IBPS preset uses 240 × 240 px at 200 DPI.
+## The handwritten declaration
 
-## Handwritten declaration
+IBPS and SBI also want a declaration in your own handwriting. Copy the exact text printed in the notification, word for word. Write it in English, in normal joined-up handwriting rather than capitals, with a black pen on white paper. Then photograph and clean it like the others. The IBPS preset is 800 × 400 px and 50 to 100 KB.
 
-IBPS and SBI forms require a declaration written in your own handwriting.
+## Mistakes we see a lot
 
-- Copy the **exact text** from the notification. Do not paraphrase.
-- Write in English, in running hand — **not in capital letters**.
-- Write on white paper with a black pen, then photograph and clean it. The IBPS preset is 800 × 400 px, 50–100 KB.
-
-## Common mistakes
-
-| Mistake | Result |
+| Mistake | What happens |
 |---|---|
-| Signing on ruled notebook paper | Blue lines remain in the image |
-| Using a pencil or faint pen | Strokes vanish after compression |
-| Photo taken at an angle | Signature appears stretched |
-| Signature in capitals | Rejected by SSC and banking forms |
-| Different signature in the exam hall | Problems during verification |
+| Signing on ruled notebook paper | The lines show up in the final image |
+| Pencil or a fading ballpoint | Thin strokes disappear when compressed |
+| Photo taken at an angle | The signature looks stretched |
+| Signing in capitals | SSC and bank forms reject it |
+| Different signature in the exam hall | Problems at verification |
 
-## No paper? Draw it
+## No paper nearby?
 
-For private job portals and college forms, you can also draw your signature with your finger using our [signature maker](/tools/signature-maker). For government exams, a pen-on-paper signature is safer because you must reproduce it in the exam hall.
+For private job portals and college forms, you can draw your signature with a finger using the [signature maker](/tools/signature-maker). For government exams, stick with pen and paper, since you'll be signing by hand on exam day.
 
-Exam-specific requirements: [SSC CGL](/exams/ssc-cgl) · [IBPS PO](/exams/ibps-po) · [RRB NTPC](/exams/rrb-ntpc) · [UP Police](/exams/up-police-constable) · [NEET UG](/exams/neet-ug) · [UPSC](/exams/upsc-cse)
+Exam-specific rules: [SSC CGL](/exams/ssc-cgl) · [IBPS PO](/exams/ibps-po) · [RRB NTPC](/exams/rrb-ntpc) · [UP Police](/exams/up-police-constable) · [NEET UG](/exams/neet-ug) · [UPSC](/exams/upsc-cse)

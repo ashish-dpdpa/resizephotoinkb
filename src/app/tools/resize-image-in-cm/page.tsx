@@ -8,7 +8,7 @@ const path = "/tools/resize-image-in-cm";
 
 export const metadata = pageMetadata({
   title: "Resize Image in cm and KB Online (Width & Height)",
-  description: "Resize a photo or signature by width and height in cm, mm or inches at any DPI, and hit a KB range — for forms that give sizes in centimetres. Free.",
+  description: "Resize a photo or signature by width and height in cm, mm or inches at any DPI, and hit a KB range, for forms that give sizes in centimetres. Free.",
   path,
 });
 
@@ -17,7 +17,7 @@ const presets = [
   { id: "6x2", label: "6 × 2 cm signature", w: 6, h: 2, min: 10, max: 20, sig: true },
   { id: "4x2", label: "4 × 2 cm signature", w: 4, h: 2, min: 10, max: 20, sig: true },
   { id: "3.5x1.5", label: "3.5 × 1.5 cm signature", w: 3.5, h: 1.5, min: 3, max: 30, sig: true },
-  { id: "5x5", label: "5 × 5 cm (2 × 2 in)", w: 5.08, h: 5.08, min: 10, max: 200, sig: false },
+  { id: "2x2in", label: "2 × 2 inch (5.1 cm)", w: 5.08, h: 5.08, min: 10, max: 200, sig: false },
 ].map((p) => ({
   id: p.id,
   label: p.label,
@@ -35,7 +35,7 @@ export default function ResizeInCmPage() {
       title="Resize Image in cm"
       path={path}
       kicker="Size in cm"
-      intro="Many notices give the photo or signature size in centimetres — 3.5 × 4.5 cm, 6 × 2 cm, 3.5 × 1.5 cm. Type the size in cm, mm or inches, pick a DPI, and the tool converts it to pixels and hits the KB range for you."
+      intro="Many notices give the photo or signature size in centimetres, like 3.5 × 4.5 cm, 6 × 2 cm or 3.5 × 1.5 cm. Type the size in cm, mm or inches, pick a DPI, and the tool converts it to pixels and hits the KB range for you."
       tool={<ImageTool presets={presets} defaultUnit="cm" openSize fileBaseName="resized-cm" />}
       steps={[
         "Pick a common size, or type your width and height in cm (switch to mm or inch if you prefer).",
@@ -46,7 +46,7 @@ export default function ResizeInCmPage() {
       faqs={[
         { q: "How do I resize an image in cm?", a: "Choose cm as the unit, type the width and height and the DPI. The tool converts the size to pixels (cm ÷ 2.54 × DPI) and writes the DPI into the JPG." },
         { q: "Why does the DPI matter?", a: "A digital image has no size in cm until a DPI is chosen. 3.5 cm at 200 DPI is 276 pixels wide; at 300 DPI it is 413 pixels." },
-        { q: "Can I resize in cm and KB at the same time?", a: "Yes. Set the Min KB and Max KB as well — the tool keeps the cm size and compresses the file into that range." },
+        { q: "Can I resize in cm and KB at the same time?", a: "Yes. Set the Min KB and Max KB as well, and the tool keeps the cm size and compresses the file into that range." },
       ]}
     >
       <h2>Common sizes in cm and pixels</h2>

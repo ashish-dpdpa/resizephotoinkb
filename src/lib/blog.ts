@@ -94,6 +94,9 @@ export function getPost(slug: string): Post | null {
       ? `<a href="${href}" target="_blank" rel="noopener nofollow">${text}</a>`
       : `<a href="${href}">${text}</a>`;
   };
-  const html = marked.parse(content, { renderer, async: false }) as string;
+  const html = (marked.parse(content, { renderer, async: false }) as string)
+    // let wide tables scroll sideways on phones instead of stretching the page
+    .replace(/<table>/g, '<div class="table-wrap"><table>')
+    .replace(/<\/table>/g, "</table></div>");
   return { ...toMeta(slug, data, content), html, headings };
 }

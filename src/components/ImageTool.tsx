@@ -596,7 +596,7 @@ export default function ImageTool({
           {result && (
             <ul className="mt-5 space-y-1.5 text-xs text-ink-2">
               <li className="font-mono">Output: {result.width} × {result.height} px · JPG · quality {Math.round(result.quality * 100)}%</li>
-              {result.padded && <li>✓ Raised to the {minKB} KB minimum with invisible padding — the picture is unchanged.</li>}
+              {result.padded && <li>✓ Raised to the {minKB} KB minimum with invisible padding. The picture is unchanged.</li>}
               {result.shrunk && <li>✓ Pixel size reduced so it fits under {maxKB} KB.</li>}
               {result.warning && <li className="text-stamp">{result.warning}</li>}
             </ul>

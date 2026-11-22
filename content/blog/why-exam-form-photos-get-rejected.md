@@ -1,77 +1,48 @@
 ---
 title: "12 Reasons Your Exam Form Photo or Signature Gets Rejected (and How to Fix Each)"
 seoTitle: "12 Reasons Exam Form Photos and Signatures Get Rejected"
-description: "From 'file size too small' to rejection at document verification — the most common upload mistakes in Indian exam forms and the quick fix for each."
+description: "From 'file size too small' to trouble at document verification: the upload mistakes that trip up Indian exam applicants most often, and what to do about each one."
 date: "2026-11-16"
 category: "Photo guides"
 tags: ["photo rejected", "signature rejected", "application form", "mistakes"]
 ---
 
-Upload errors are frustrating because the message rarely tells you what is actually wrong. Below are the problems we see most often, grouped by when they happen: at upload, at the end of the form, and at verification weeks later.
+Upload errors are annoying mostly because they're vague. "Invalid file" could mean five different things. Below are the problems that come up again and again, sorted by when they bite you: the moment you upload, later in the form, and weeks later at document verification, which is the one that really hurts.
 
-## Errors at the moment of upload
+## Right at the upload box
 
-### 1. File size exceeds the limit
-The file is bigger than the maximum KB. Phone photos are often 2–5 MB, which is 50–100 times too big.
-**Fix:** resize to the required pixels with the [photo resizer](/tools/photo-resizer), which also compresses to the KB range.
+**1. The file is over the limit.** Phone photos are usually 2 to 5 MB, and the limit is often 50 KB. That's not a small gap. Resize to the pixel size the notice asks for, and the KB drops along with it. The [photo resizer](/tools/photo-resizer) does both together.
 
-### 2. File size is below the minimum
-Many students do not notice that forms have a *minimum* as well. Small signatures often come out at 4–8 KB when the minimum is 10 KB — or 30 KB in railway and UP Police forms.
-**Fix:** set the minimum in our tool. It pads the file to meet it without changing the picture.
+**2. The file is under the limit.** This one surprises people. Many forms have a minimum, commonly 10 KB, and railway and UP Police forms go as high as 30 KB for the signature. A clean signature can easily come out at 5 KB. Put the minimum into our tool and it pads the file up to it without touching the picture.
 
-### 3. Invalid dimensions
-The pixel width or height does not match. Some portals allow a range; others want an exact size.
-**Fix:** type the exact pixels from the notice into the tool. See [KB vs pixels vs DPI](/blog/photo-size-kb-pixels-dpi-explained) if your notice uses centimetres.
+**3. Wrong dimensions.** Some portals accept a range of widths and heights, others want the exact pixel size. If the notice says 200 × 230, give it 200 × 230. If the notice uses centimetres, our [KB vs pixels vs DPI](/blog/photo-size-kb-pixels-dpi-explained) explainer shows the conversion.
 
-### 4. Wrong format
-The file is PNG, HEIC (iPhone), WebP or PDF instead of JPG.
-**Fix:** all our tools output JPG. On iPhone, you can also set Camera → Formats → Most Compatible.
+**4. Wrong format.** PNG, HEIC from an iPhone, WebP saved from WhatsApp Web, or a PDF where a JPG was expected. Everything our tools produce is JPG. On an iPhone you can also go to Settings, then Camera, then Formats, and pick Most Compatible.
 
-### 5. File name problems
-Some older portals reject file names with spaces, Hindi characters or very long names.
-**Fix:** rename the file to something short like `photo.jpg` or `sign.jpg`.
+**5. A fussy file name.** A few older portals don't like spaces, Hindi characters or very long names. Renaming the file to something like `photo.jpg` or `sign.jpg` sorts it out.
 
-## Problems you only notice later
+## Things you notice later in the form
 
-### 6. Photo and signature swapped
-It happens more often than you would think, especially on mobile.
-**Fix:** check the preview after uploading. The photo box should show your face.
+**6. Photo and signature in each other's boxes.** It happens all the time on phones. Always look at the preview after uploading.
 
-### 7. Rotated photo
-Phone photos sometimes appear sideways on the portal because of hidden orientation data.
-**Fix:** our tools redraw the image the right way up, removing this issue.
+**7. A sideways photo.** Phone photos carry a hidden rotation flag, and some portals ignore it, so your photo shows up lying on its side. Our tools redraw the image the right way up, which gets rid of the problem.
 
-### 8. Face too small or cut off
-If you resize without cropping, your face can become a tiny part of a large background.
-**Fix:** use Zoom and Move so your face fills most of the frame.
+**8. A tiny face.** If you shrink the whole photo without cropping, your face ends up as a small blob in a big background. Zoom in and drag the photo so your face fills most of the frame.
 
-## Rejection at document verification
+## At document verification
 
-These are the most painful, because they come after you have cleared the exam.
+These are the painful ones, because by now you've already cleared the exam.
 
-### 9. Background not plain
-Patterned walls, doors or other people in the background.
-**Fix:** stand against a plain light wall. Do not use apps that paint an artificial background badly around your hair.
+**9. A messy background.** A patterned curtain, a door, someone else's shoulder. Stand against a plain light wall. If that's not possible, switch on White background in our tool instead of using an app that paints a rough outline around your hair.
 
-### 10. Old or different photo
-Several exams require a recent photo, and you must look like your photo on the day. Using a school photo from years ago is risky.
-**Fix:** take a fresh photo for every application season and keep prints of the *same* photo for the admit card and verification.
+**10. An old photo.** Some exams want a photo taken recently, and you need to look like it on the day. Your school ID photo from years ago isn't going to cut it. Take a new one each application season and keep prints of that same photo.
 
-### 11. Caps, dark glasses or heavy filters
-Beauty filters and "portrait mode" blur can make the photo unacceptable.
-**Fix:** use the normal camera mode with no filters.
+**11. Caps, dark glasses or filters.** Beauty filters and portrait-mode blur can make a photo unacceptable. Use the normal camera mode.
 
-### 12. Signature in capital letters or not matching
-SSC and banking notices specifically say signatures in CAPITAL letters are not accepted. Your signature must also match the one you put on the answer sheet and attendance sheet.
-**Fix:** sign naturally, in running hand, and use the same signature everywhere. Our [signature guide](/blog/how-to-scan-signature-for-online-form) covers this step by step.
+**12. A signature that doesn't match.** SSC and bank notices say signatures in capital letters aren't accepted. Beyond that, your signature has to match the one you put on the attendance sheet and answer sheet. Sign the way you normally sign. Our [signature guide](/blog/how-to-scan-signature-for-online-form) walks through it.
 
-## A 30-second pre-submit check
+## Thirty seconds before you pay
 
-Before you pay the fee:
+Before the payment page, check four things. The photo preview shows your face, upright and clear. The signature preview shows a clean signature on white. Both files were inside the KB range (our tool says "within limit" when they are). And you've saved a copy of both files and the confirmation page.
 
-1. Photo preview shows your face, upright, clear.
-2. Signature preview shows a clean signature on white.
-3. Both files were within the KB range (our tool shows a green "within limit").
-4. You saved a copy of both files and the confirmation page.
-
-If something was rejected and you are not sure why, open your exam page — [SSC CGL](/exams/ssc-cgl), [UPSC](/exams/upsc-cse), [IBPS PO](/exams/ibps-po), [RRB NTPC](/exams/rrb-ntpc), [UP Police](/exams/up-police-constable), [NEET UG](/exams/neet-ug) — and compare your file against the table there.
+If a file got rejected and you can't work out why, open your exam's page and compare: [SSC CGL](/exams/ssc-cgl), [UPSC](/exams/upsc-cse), [IBPS PO](/exams/ibps-po), [RRB NTPC](/exams/rrb-ntpc), [UP Police](/exams/up-police-constable), [NEET UG](/exams/neet-ug).
