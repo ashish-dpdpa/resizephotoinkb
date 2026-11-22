@@ -39,7 +39,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   return (
     <div className="shell py-8 sm:py-12">
       <Breadcrumbs items={[{ name: "Blog", href: "/blog" }, { name: post.title, href: path }]} />
-      <header className="mx-auto max-w-3xl text-center">
+      <header className="mx-auto max-w-3xl text-center" lang={post.lang === "hi" ? "hi" : undefined}>
         <p className="label text-stamp">{post.category}</p>
         <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] text-ink sm:text-5xl">{post.title}</h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-ink-2">{post.description}</p>
@@ -80,7 +80,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
         </aside>
 
-        <article className="order-1 min-w-0 lg:order-2">
+        <article className="order-1 min-w-0 lg:order-2" lang={post.lang === "hi" ? "hi" : undefined}>
           <div
             className="prose prose-lg max-w-none prose-headings:scroll-mt-24 prose-headings:font-extrabold prose-table:text-base"
             dangerouslySetInnerHTML={{ __html: post.html }}
@@ -128,7 +128,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           author: { "@type": "Organization", name: siteConfig.author.name, url: absoluteUrl("/about") },
           publisher: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
           keywords: post.tags.join(", "),
-          inLanguage: "en-IN",
+          inLanguage: post.lang === "hi" ? "hi-IN" : "en-IN",
         }}
       />
     </div>

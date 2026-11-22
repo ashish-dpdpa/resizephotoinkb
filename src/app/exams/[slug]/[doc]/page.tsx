@@ -9,6 +9,7 @@ import { allDocPages, compressSizeFor, docGuide, docNoun, getDocPage } from "@/l
 import { formatDate } from "@/lib/exams";
 import { pageMetadata } from "@/lib/seo";
 import { absoluteUrl, siteConfig } from "@/lib/site";
+import { rangePages } from "@/lib/sizePages";
 
 export const dynamicParams = false;
 
@@ -25,8 +26,8 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { exam, doc: d } = page;
   const noun = docNoun[d.kind];
   return pageMetadata({
-    title: `${exam.name} ${noun.replace("Handwritten ", "")} Size 2026: ${d.minKB}–${d.maxKB} KB, ${d.width}×${d.height} px`,
-    description: `Resize your ${noun.toLowerCase()} for the ${exam.name} form: ${d.minKB}–${d.maxKB} KB JPG, ${d.dimensionNote.split(".")[0]}. Free online tool, nothing is uploaded.`,
+    title: `${exam.name} ${noun.replace("Handwritten ", "")} Size 2026 & Resizer — ${d.minKB}–${d.maxKB} KB`,
+    description: `${exam.name} ${noun.toLowerCase()} size: ${d.minKB}–${d.maxKB} KB JPG, ${d.width} × ${d.height} px. Free ${noun.toLowerCase()} resizer and size converter — nothing is uploaded.`,
     path: page.path,
   });
 }
@@ -42,6 +43,7 @@ export default async function DocPage({ params }: { params: Params }) {
   const siblings = all.filter((p) => p.exam.slug === exam.slug && p.slug !== page.slug);
   const sameKind = all.filter((p) => p.doc.kind === d.kind);
   const compressKB = compressSizeFor(d.maxKB);
+  const rangePage = rangePages.find((r) => r.minKB === d.minKB && Math.abs(r.maxKB - d.maxKB) <= 1);
   const title = `${exam.name} ${noun} Size 2026`;
   const isInk = d.kind === "signature" || d.kind === "thumb" || d.kind === "declaration";
 
@@ -125,6 +127,7 @@ export default async function DocPage({ params }: { params: Params }) {
             },
           ]}
           fileBaseName={`${exam.slug}-${d.kind}`}
+          captionMode={exam.captionDoc === d.kind}
         />
       </div>
 
@@ -235,6 +238,13 @@ export default async function DocPage({ params }: { params: Params }) {
         <div className="card p-6">
           <p className="label">Related tools</p>
           <ul className="mt-3 divide-y divide-dashed divide-line-2">
+            {rangePage && (
+              <li>
+                <Link href={`/tools/${rangePage.slug}`} className="flex justify-between py-3 font-semibold text-ink hover:text-pen">
+                  {rangePage.title} <span aria-hidden="true">→</span>
+                </Link>
+              </li>
+            )}
             {compressKB && (
               <li>
                 <Link href={`/tools/compress-image-to-${compressKB}kb`} className="flex justify-between py-3 font-semibold text-ink hover:text-pen">

@@ -25,7 +25,15 @@ export default function ToolPage({
   kicker?: string;
   children?: React.ReactNode;
 }) {
-  const related = tools.filter((t) => t.href !== path).slice(0, 6);
+  // Same-group tools first (e.g. other KB ranges), then the main tools.
+  const self = tools.find((t) => t.href === path);
+  const related = [
+    ...tools.filter((t) => t.href !== path && self && t.group === self.group && t.group !== "main"),
+    ...tools.filter((t) => t.href !== path && t.group === "main"),
+    ...tools.filter((t) => t.href !== path && t.group === "converter"),
+  ]
+    .filter((t, i, a) => a.findIndex((x) => x.href === t.href) === i)
+    .slice(0, 6);
   return (
     <div className="shell py-8 sm:py-12">
       <Breadcrumbs items={[{ name: "Tools", href: "/tools" }, { name: title, href: path }]} />

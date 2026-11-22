@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { drawFrame, formatKB, frameGeometry, loadImage, processImage, type ProcessResult } from "@/lib/image";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { captionHeight, drawFrame, formatKB, frameGeometry, loadImage, processImage, type ProcessResult } from "@/lib/image";
 
 export interface Preset {
   id: string;
@@ -21,7 +21,24 @@ interface Props {
   defaultMinKB?: number;
   defaultMaxKB?: number;
   fileBaseName?: string;
+  /** Starting unit for width/height fields. */
+  defaultUnit?: Unit;
+  /** Show the DPI field in compress mode (DPI converter page). */
+  showDpi?: boolean;
+  defaultDpi?: number;
+  /** Open the size editor straight away. */
+  openSize?: boolean;
+  /** Show name + date fields and print them in a strip under the photo. */
+  captionMode?: boolean;
+  /** Offer the on-device "white background" option for photos. */
+  whiteBgOption?: boolean;
+  /** Offer a 4x6 inch print sheet with several copies. */
+  printSheet?: boolean;
 }
+
+type Unit = "px" | "cm" | "mm" | "in";
+const UNITS: Unit[] = ["px", "cm", "mm", "in"];
+const UNIT_PER_INCH: Record<Unit, number> = { px: 1, cm: 2.54, mm: 25.4, in: 1 };
 
 type Ink = "original" | "black" | "blue";
 
@@ -31,6 +48,13 @@ export default function ImageTool({
   defaultMinKB = 0,
   defaultMaxKB = 50,
   fileBaseName = "resized",
+  defaultUnit = "px",
+  showDpi = false,
+  defaultDpi,
+  openSize = false,
+  captionMode = false,
+  whiteBgOption = true,
+  printSheet = false,
 }: Props) {
   const first = presets[0];
   const [presetId, setPresetId] = useState(first?.id ?? "custom");
@@ -38,7 +62,8 @@ export default function ImageTool({
   const [height, setHeight] = useState(first?.height ?? 450);
   const [minKB, setMinKB] = useState(first?.minKB ?? defaultMinKB);
   const [maxKB, setMaxKB] = useState(first?.maxKB ?? defaultMaxKB);
-  const [dpi, setDpi] = useState<number | undefined>(first?.dpi);
+  const [dpi, setDpi] = useState<number | undefined>(first?.dpi ?? defaultDpi ?? (defaultUnit !== "px" ? 200 : undefined));
+  const [unit, setUnit] = useState<Unit>(defaultUnit);
   const [fit, setFit] = useState<"cover" | "contain">("cover");
   const [zoom, setZoom] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
@@ -46,7 +71,14 @@ export default function ImageTool({
   const [cleanSignature, setCleanSignature] = useState(!!first?.signature);
   const [threshold, setThreshold] = useState(150);
   const [inkColor, setInkColor] = useState<Ink>("original");
-  const [editSize, setEditSize] = useState(presets.length === 0 && !compressOnly);
+  const [original, setOriginal] = useState<HTMLImageElement | null>(null);
+  const [whiteBg, setWhiteBg] = useState(false);
+  const [bgBusy, setBgBusy] = useState(false);
+  const [showCaption, setShowCaption] = useState(captionMode);
+  const [capName, setCapName] = useState("");
+  const [capDate, setCapDate] = useState("");
+  const [capPrefix, setCapPrefix] = useState<"" | "Date: " | "DOP: ">("");
+  const [editSize, setEditSize] = useState(openSize || (presets.length === 0 && !compressOnly));
 
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [source, setSource] = useState<{ name: string; size: number; w: number; h: number } | null>(null);
@@ -65,6 +97,50 @@ export default function ImageTool({
   const outW = compressOnly && img ? img.naturalWidth : width;
   const outH = compressOnly && img ? img.naturalHeight : height;
   const isInk = cleanSignature;
+
+  // Today's date for the caption, set after mount so server and browser HTML match.
+  useEffect(() => {
+    if (captionMode && !capDate) setCapDate(new Date().toISOString().slice(0, 10));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [captionMode]);
+  const caption = useMemo(() => {
+    if (!showCaption || compressOnly) return undefined;
+    const lines: string[] = [];
+    if (capName.trim()) lines.push(capName.trim().toUpperCase());
+    if (capDate) {
+      const [y, m, d] = capDate.split("-");
+      lines.push(`${capPrefix}${d}/${m}/${y}`);
+    }
+    return lines.length ? lines : undefined;
+  }, [showCaption, compressOnly, capName, capDate, capPrefix]);
+  const captionKey = caption?.join("|") ?? "";
+
+  // ---- unit conversion (pixels are the source of truth) ----
+  const effDpi = dpi && dpi > 0 ? dpi : 200;
+  const unitLabel = unit === "in" ? "inch" : unit;
+  const DECIMALS: Record<Unit, number> = { px: 0, cm: 1, mm: 0, in: 2 };
+  const toUnit = (px: number) => {
+    if (unit === "px") return px;
+    const f = 10 ** DECIMALS[unit];
+    return Math.round((px / effDpi) * UNIT_PER_INCH[unit] * f) / f;
+  };
+  const fromUnit = (v: number) => (unit === "px" ? Math.round(v) : Math.max(1, Math.round((v / UNIT_PER_INCH[unit]) * effDpi)));
+  // one pixel plus half a display step, so rounding never fights the user
+  const tolerance = unit === "px" ? 0.5 : (UNIT_PER_INCH[unit] / effDpi) * 1.01 + 0.5 / 10 ** DECIMALS[unit];
+  const changeUnit = (u: Unit) => {
+    setUnit(u);
+    if (u !== "px" && !dpi) setDpi(200);
+  };
+  const changeDpi = (v: number) => {
+    const next = v > 0 ? Math.round(v) : undefined;
+    // Keep the physical size (cm/inch) the same when DPI changes.
+    if (!compressOnly && unit !== "px" && next) {
+      // re-derive from the shown cm/mm/inch value so 3.5 cm stays exactly 3.5 cm (no pixel drift)
+      setWidth(Math.max(1, Math.round((toUnit(width) / UNIT_PER_INCH[unit]) * next)));
+      setHeight(Math.max(1, Math.round((toUnit(height) / UNIT_PER_INCH[unit]) * next)));
+    }
+    setDpi(next);
+  };
 
   const applyPreset = (p: Preset) => {
     setPresetId(p.id);
@@ -88,6 +164,8 @@ export default function ImageTool({
     }
     try {
       const image = await loadImage(file);
+      setOriginal(image);
+      setWhiteBg(false);
       setImg(image);
       setSource({ name: file.name, size: file.size, w: image.naturalWidth, h: image.naturalHeight });
       setZoom(1);
@@ -111,8 +189,9 @@ export default function ImageTool({
   // Instant preview while dragging / zooming (no JPEG encoding).
   useEffect(() => {
     if (!img || compressOnly || !previewRef.current) return;
-    drawFrame(img, width, height, { fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor }, previewRef.current);
-  }, [img, width, height, fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, compressOnly]);
+    drawFrame(img, width, height, { fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, caption }, previewRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [img, width, height, fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, compressOnly, captionKey]);
 
   // Encode the real JPEG (debounced).
   useEffect(() => {
@@ -141,6 +220,7 @@ export default function ImageTool({
           inkColor,
           allowShrink: compressOnly,
           dpi,
+          caption,
         });
         if (id !== runId.current) {
           URL.revokeObjectURL(r.url);
@@ -157,7 +237,73 @@ export default function ImageTool({
       }
     }, 300);
     return () => clearTimeout(t);
-  }, [img, outW, outH, width, height, minKB, maxKB, fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, dpi, compressOnly]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [img, outW, outH, width, height, minKB, maxKB, fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, dpi, compressOnly, captionKey]);
+
+  // On-device white background (downloads the segmentation model the first time).
+  const toggleWhiteBg = async (on: boolean) => {
+    if (!original) return;
+    setWhiteBg(on);
+    if (!on) {
+      setImg(original);
+      return;
+    }
+    setBgBusy(true);
+    setError(null);
+    try {
+      const { replaceBackground } = await import("@/lib/segment");
+      setImg(await replaceBackground(original));
+    } catch (e) {
+      setWhiteBg(false);
+      setError(`Could not change the background: ${(e as Error).message}`);
+    } finally {
+      setBgBusy(false);
+    }
+  };
+
+  // 4 x 6 inch sheet (300 DPI) filled with copies of the current photo, for printing.
+  const downloadSheet = async () => {
+    if (!img) return;
+    const sheetDpi = 300;
+    const W = 6 * sheetDpi;
+    const H = 4 * sheetDpi;
+    // Real print size comes from the DPI; without one, print at passport width (3.5 cm).
+    const pw = dpi && dpi > 0 ? Math.round((width / dpi) * sheetDpi) : Math.round((3.5 / 2.54) * sheetDpi);
+    const ph = Math.round((pw * height) / width);
+    const gap = 24;
+    const cols = Math.max(1, Math.floor((W - gap) / (pw + gap)));
+    const rows = Math.max(1, Math.floor((H - gap) / (ph + gap)));
+    const one = drawFrame(img, pw, ph, { fit, zoom, offsetX, offsetY, cleanSignature, threshold, inkColor, caption });
+    const sheet = document.createElement("canvas");
+    sheet.width = W;
+    sheet.height = H;
+    const ctx = sheet.getContext("2d")!;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, W, H);
+    const ox = Math.round((W - cols * pw - (cols - 1) * gap) / 2);
+    const oy = Math.round((H - rows * ph - (rows - 1) * gap) / 2);
+    ctx.strokeStyle = "#c8c8c8";
+    ctx.lineWidth = 2;
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols; c++) {
+        const x = ox + c * (pw + gap);
+        const y = oy + r * (ph + gap);
+        ctx.drawImage(one, x, y);
+        ctx.strokeRect(x - 1, y - 1, pw + 2, ph + 2);
+      }
+    sheet.toBlob(
+      (b) => {
+        if (!b) return;
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(b);
+        a.download = `${fileBaseName}-print-sheet-4x6-${rows * cols}-copies.jpg`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      },
+      "image/jpeg",
+      0.95,
+    );
+  };
 
   // Drag on the preview to move the photo inside the frame.
   const onPointerDown = (e: React.PointerEvent) => {
@@ -169,7 +315,7 @@ export default function ImageTool({
     if (!drag.current || !img || !stageRef.current) return;
     const rect = stageRef.current.getBoundingClientRect();
     const toOut = width / rect.width;
-    const g = frameGeometry(img, width, height, { fit, zoom, offsetX, offsetY });
+    const g = frameGeometry(img, width, height - captionHeight(height, caption), { fit, zoom, offsetX, offsetY });
     const nx = g.spareX > 0 ? drag.current.ox + ((e.clientX - drag.current.x) * toOut) / (g.spareX / 2) : 0;
     const ny = g.spareY > 0 ? drag.current.oy + ((e.clientY - drag.current.y) * toOut) / (g.spareY / 2) : 0;
     setOffsetX(Math.max(-1, Math.min(1, nx)));
@@ -198,6 +344,8 @@ export default function ImageTool({
 
   const reset = () => {
     setImg(null);
+    setOriginal(null);
+    setWhiteBg(false);
     setSource(null);
     setResult((old) => {
       if (old) URL.revokeObjectURL(old.url);
@@ -214,42 +362,60 @@ export default function ImageTool({
   return (
     <div className="card overflow-hidden">
       {/* ---------- top: what are you uploading ---------- */}
-      {true && (
-        <div className="border-b border-dashed border-line-2 bg-paper-2/60 px-4 py-4 sm:px-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="label">{compressOnly ? "01 · Target file size" : "01 · What are you uploading?"}</p>
-            {!compressOnly && (
-              <p className="font-mono text-xs text-ink-2">
-                {width} × {height} px · {minKB}–{maxKB} KB · JPG{dpi ? ` · ${dpi} DPI` : ""}
-                <button type="button" onClick={() => setEditSize((v) => !v)} className="ml-2 font-sans font-semibold text-pen underline underline-offset-2">
-                  {editSize ? "Done" : "Edit"}
-                </button>
-              </p>
-            )}
-          </div>
-          {presets.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="Presets">
-              {presets.map((p) => (
-                <button key={p.id} type="button" role="tab" aria-selected={presetId === p.id} onClick={() => applyPreset(p)} className="chip">
-                  {p.label}
-                </button>
-              ))}
-            </div>
+      <div className="border-b border-dashed border-line-2 bg-paper-2/60 px-4 py-4 sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="label">{compressOnly ? "01 · Target file size" : "01 · What are you uploading?"}</p>
+          {!compressOnly && (
+            <p className="font-mono text-xs text-ink-2">
+              {unit === "px" ? `${width} × ${height} px` : `${toUnit(width)} × ${toUnit(height)} ${unit} (${width} × ${height} px)`} · {minKB}–{maxKB} KB · JPG{dpi ? ` · ${dpi} DPI` : ""}
+              <button type="button" onClick={() => setEditSize((v) => !v)} className="ml-2 font-sans font-semibold text-pen underline underline-offset-2">
+                {editSize ? "Done" : "Edit"}
+              </button>
+            </p>
           )}
-          {(editSize || compressOnly) && (
-            <div className={`mt-4 grid gap-3 ${compressOnly ? "grid-cols-2 sm:max-w-sm" : "grid-cols-2 sm:grid-cols-4"}`}>
+        </div>
+        {presets.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="Presets">
+            {presets.map((p) => (
+              <button key={p.id} type="button" role="tab" aria-selected={presetId === p.id} onClick={() => applyPreset(p)} className="chip">
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
+        {(editSize || compressOnly) && (
+          <div className="mt-4 space-y-3">
+            {!compressOnly && (
+              <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Units">
+                <span className="label mr-1">Units</span>
+                {UNITS.map((u) => (
+                  <button key={u} type="button" aria-pressed={unit === u} onClick={() => changeUnit(u)} className="chip !py-1 !text-xs">
+                    {u === "in" ? "inch" : u}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className={`grid gap-3 ${compressOnly ? (showDpi ? "grid-cols-3 sm:max-w-lg" : "grid-cols-2 sm:max-w-sm") : "grid-cols-2 sm:grid-cols-5"}`}>
               {!compressOnly && (
                 <>
-                  <NumField label="Width px" value={width} onChange={(v) => { setWidth(v); setPresetId("custom"); }} />
-                  <NumField label="Height px" value={height} onChange={(v) => { setHeight(v); setPresetId("custom"); }} />
+                  <NumField label={`Width ${unitLabel}`} value={toUnit(width)} tolerance={tolerance} onChange={(v) => { setWidth(fromUnit(v)); setPresetId("custom"); }} />
+                  <NumField label={`Height ${unitLabel}`} value={toUnit(height)} tolerance={tolerance} onChange={(v) => { setHeight(fromUnit(v)); setPresetId("custom"); }} />
                 </>
               )}
               <NumField label="Min KB" value={minKB} onChange={(v) => { setMinKB(v); setPresetId("custom"); }} />
               <NumField label="Max KB" value={maxKB} onChange={(v) => { setMaxKB(v); setPresetId("custom"); }} />
+              {(!compressOnly || showDpi) && (
+                <NumField label="DPI" value={dpi ?? 0} placeholder="auto" onChange={changeDpi} />
+              )}
             </div>
-          )}
-        </div>
-      )}
+            {!compressOnly && unit !== "px" && (
+              <p className="font-mono text-xs text-ink-3">
+                = {width} × {height} px at {effDpi} DPI. Pixels = {unit === "in" ? "inches" : unit} ÷ {UNIT_PER_INCH[unit]} × DPI.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
         {/* ---------- stage ---------- */}
@@ -343,6 +509,53 @@ export default function ImageTool({
 
           <KbMeter bytes={result?.bytes ?? null} minKB={minKB} maxKB={maxKB} busy={busy} />
 
+          {!compressOnly && img && whiteBgOption && !cleanSignature && (
+            <div className="mt-6 rounded-xl border border-line bg-paper/60 p-4">
+              <label className="flex cursor-pointer items-center justify-between gap-3">
+                <span>
+                  <span className="block font-semibold text-ink">
+                    White background {bgBusy && <span className="font-mono text-xs text-ink-3">· working…</span>}
+                  </span>
+                  <span className="block text-xs text-ink-3">Removes the wall behind you on your device. First use downloads a small AI model.</span>
+                </span>
+                <input type="checkbox" checked={whiteBg} disabled={bgBusy} onChange={(e) => toggleWhiteBg(e.target.checked)} className="peer sr-only" />
+                <span aria-hidden="true" className="relative h-6 w-11 shrink-0 rounded-full bg-line-2 transition peer-checked:bg-ink after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-card after:transition peer-checked:after:translate-x-5" />
+              </label>
+            </div>
+          )}
+
+          {!compressOnly && img && !cleanSignature && captionMode && (
+            <div className="mt-4 rounded-xl border border-line bg-paper/60 p-4">
+              <label className="flex cursor-pointer items-center justify-between gap-3">
+                <span className="block font-semibold text-ink">Name &amp; date under photo</span>
+                <input type="checkbox" checked={showCaption} onChange={(e) => setShowCaption(e.target.checked)} className="peer sr-only" />
+                <span aria-hidden="true" className="relative h-6 w-11 shrink-0 rounded-full bg-line-2 transition peer-checked:bg-ink after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-card after:transition peer-checked:after:translate-x-5" />
+              </label>
+              {showCaption && (
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <label className="block sm:col-span-2">
+                    <span className="label">Name</span>
+                    <input type="text" value={capName} maxLength={40} placeholder="Your full name" onChange={(e) => setCapName(e.target.value)} className="field mt-1 !font-sans" />
+                  </label>
+                  <label className="block">
+                    <span className="label">Date of photo</span>
+                    <input type="date" value={capDate} onChange={(e) => setCapDate(e.target.value)} className="field mt-1" />
+                  </label>
+                  <div>
+                    <span className="label">Date label</span>
+                    <div className="mt-1.5 flex gap-2">
+                      {(["", "Date: ", "DOP: "] as const).map((pfx) => (
+                        <button key={pfx || "none"} type="button" aria-pressed={capPrefix === pfx} onClick={() => setCapPrefix(pfx)} className="chip !py-1 !text-xs">
+                          {pfx ? pfx.trim() : "None"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {!compressOnly && img && (
             <div className="mt-6 rounded-xl border border-line bg-paper/60 p-4">
               <label className="flex cursor-pointer items-center justify-between gap-3">
@@ -394,6 +607,11 @@ export default function ImageTool({
           <button type="button" onClick={download} disabled={!result || busy} className="btn btn-pen mt-6 hidden w-full py-4 text-base lg:flex">
             <DownloadIcon /> Download JPG {result ? `· ${formatKB(result.bytes)}` : ""}
           </button>
+          {printSheet && (
+            <button type="button" onClick={downloadSheet} disabled={!img} className="btn btn-ghost mt-3 w-full">
+              Download 4 × 6 in print sheet
+            </button>
+          )}
           <p className="mt-3 hidden text-center text-xs text-ink-3 lg:block">Processed on your device. Nothing is uploaded.</p>
         </div>
       </div>
@@ -418,11 +636,46 @@ export default function ImageTool({
   );
 }
 
-function NumField({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+function NumField({
+  label,
+  value,
+  onChange,
+  tolerance = 0.5,
+  placeholder,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  tolerance?: number;
+  placeholder?: string;
+}) {
+  const [text, setText] = useState(value ? String(value) : "");
+  const lastTyped = useRef<number | null>(null);
+  // Sync from outside (preset, unit or DPI change) but never fight what the user is typing.
+  useEffect(() => {
+    if (lastTyped.current !== null && Math.abs(value - lastTyped.current) <= tolerance) return;
+    lastTyped.current = null;
+    setText(value ? String(value) : "");
+  }, [value, tolerance]);
   return (
     <label className="block">
       <span className="label">{label}</span>
-      <input type="number" inputMode="numeric" min={0} value={value} onChange={(e) => onChange(+e.target.value)} className="field mt-1" />
+      <input
+        type="number"
+        inputMode="decimal"
+        min={0}
+        step="any"
+        value={text}
+        placeholder={placeholder}
+        onChange={(e) => {
+          setText(e.target.value);
+          const n = parseFloat(e.target.value);
+          if (Number.isNaN(n)) return; // half-typed ("3.", "") — wait for a full number
+          lastTyped.current = n;
+          onChange(n);
+        }}
+        className="field mt-1"
+      />
     </label>
   );
 }

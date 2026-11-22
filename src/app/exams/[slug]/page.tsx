@@ -25,10 +25,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const what = exam.livePhoto ? "Signature" : "Photo & Signature";
   const first = exam.docs[0];
   return pageMetadata({
-    title: `${exam.name} ${what} Size 2026 (${first.minKB}–${first.maxKB} KB)`,
+    title: `${exam.name} ${what} Size 2026 & Resizer (${first.minKB}–${first.maxKB} KB)`,
     description: `${exam.name} 2026 upload sizes: ${exam.docs
       .map((d) => `${docNoun[d.kind].replace("Handwritten ", "").replace(" Impression", "").toLowerCase()} ${d.minKB}–${d.maxKB} KB`)
-      .join(", ")}. Resize free in your browser.`,
+      .join(", ")}. Free size converter that runs in your browser.`,
     path: `/exams/${exam.slug}`,
   });
 }
@@ -112,7 +112,7 @@ export default async function ExamPage({ params }: { params: Promise<{ slug: str
           </p>
         )}
         <div className="mt-6">
-          <ImageTool presets={examPresets(exam.slug)} fileBaseName={exam.slug} />
+          <ImageTool presets={examPresets(exam.slug)} fileBaseName={exam.slug} captionMode={!!exam.captionDoc} />
         </div>
       </section>
 

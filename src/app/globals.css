@@ -31,8 +31,8 @@
   --color-brand-600: #2337c6;
   --color-brand-700: #1a2a99;
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-public), ui-sans-serif, system-ui, "Noto Sans Devanagari", sans-serif;
+  --font-display: var(--font-bricolage), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-public), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
 
   --radius-card: 14px;
@@ -194,3 +194,7 @@ h1, h2, h3, .font-display {
 @media (max-width: 1023px) {
   body:has(.sticky-bar) { padding-bottom: 5rem; }
 }
+
+/* Devanagari needs normal letter-spacing and a little more line height */
+[lang="hi"] h1, [lang="hi"] h2, [lang="hi"] h3 { letter-spacing: 0; line-height: 1.3; }
+[lang="hi"] .prose { line-height: 1.85; }

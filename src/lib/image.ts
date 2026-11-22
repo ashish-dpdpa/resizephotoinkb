@@ -18,6 +18,8 @@ export interface ProcessOptions {
   /** Allow shrinking the pixel size if the file can't get under maxKB at the requested size. */
   allowShrink: boolean;
   dpi?: number;
+  /** Text printed in a white strip under the photo (e.g. name and date of photograph). */
+  caption?: string[];
 }
 
 export interface ProcessResult {
@@ -66,6 +68,12 @@ export function frameGeometry(
   return { dw, dh, dx, dy, spareX, spareY };
 }
 
+/** Height of the white caption strip for a frame of height h (0 when there is no caption). */
+export function captionHeight(h: number, caption?: string[]) {
+  const lines = (caption ?? []).filter((l) => l.trim()).length;
+  return lines ? Math.round(h * Math.min(0.3, 0.085 * lines + 0.05)) : 0;
+}
+
 /** Draw the framed (and optionally cleaned) image onto a canvas — also used for the live preview. */
 export function drawFrame(
   img: HTMLImageElement,
@@ -83,11 +91,18 @@ export function drawFrame(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
-  const { dw, dh, dx, dy } = frameGeometry(img, w, h, o);
+  const stripH = captionHeight(h, o.caption);
+  const imgH = h - stripH;
+  const { dw, dh, dx, dy } = frameGeometry(img, w, imgH, o);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, w, imgH);
+  ctx.clip();
   ctx.drawImage(img, dx, dy, dw, dh);
+  ctx.restore();
 
   if (o.cleanSignature) {
-    const data = ctx.getImageData(0, 0, w, h);
+    const data = ctx.getImageData(0, 0, w, imgH);
     const px = data.data;
     const ink =
       o.inkColor === "black" ? [0, 0, 0] : o.inkColor === "blue" ? [16, 42, 140] : null;
@@ -103,6 +118,25 @@ export function drawFrame(
       px[i + 3] = 255;
     }
     ctx.putImageData(data, 0, 0);
+  }
+
+  if (stripH) {
+    const lines = (o.caption ?? []).filter((l) => l.trim());
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, imgH, w, stripH);
+    ctx.fillStyle = "#000000";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const lineH = stripH / lines.length;
+    lines.forEach((line, i) => {
+      // shrink the font until the line fits the width
+      let size = Math.floor(lineH * 0.62);
+      do {
+        ctx.font = `bold ${size}px Arial, Helvetica, sans-serif`;
+        size--;
+      } while (ctx.measureText(line).width > w * 0.94 && size > 6);
+      ctx.fillText(line, w / 2, imgH + lineH * (i + 0.5));
+    });
   }
   return canvas;
 }
@@ -238,6 +272,35 @@ export async function processImage(img: HTMLImageElement, o: ProcessOptions): Pr
     shrunk,
     warning,
   };
+}
+
+/** Encode an already-composed canvas (fixed pixel size) into a JPG inside a KB range. */
+export async function encodeCanvas(
+  canvas: HTMLCanvasElement,
+  o: { minKB: number; maxKB: number; dpi?: number },
+): Promise<ProcessResult> {
+  const minBytes = Math.round(o.minKB * 1024);
+  const maxBytes = Math.round(o.maxKB * 1024);
+  let found = await bestUnder(canvas, maxBytes, 0.05);
+  let warning: string | undefined;
+  if (!found) {
+    found = { blob: await toJpeg(canvas, 0.05), q: 0.05 };
+    warning = `Even at the lowest quality this image is ${(found.blob.size / 1024).toFixed(1)} KB, above the ${o.maxKB} KB limit.`;
+  }
+  let bytes: Uint8Array = new Uint8Array(await found.blob.arrayBuffer());
+  if (o.dpi) bytes = setJfifDpi(bytes, o.dpi);
+  let padded = false;
+  if (bytes.length < minBytes) {
+    bytes = padJpeg(bytes, minBytes);
+    padded = true;
+  }
+  const blob = new Blob([bytes as BlobPart], { type: "image/jpeg" });
+  return { blob, url: URL.createObjectURL(blob), width: canvas.width, height: canvas.height, bytes: blob.size, quality: found.q, padded, shrunk: false, warning };
+}
+
+/** JPEG-encode a canvas at a given quality (exported for the PDF tools). */
+export function canvasToJpeg(canvas: HTMLCanvasElement, quality: number) {
+  return toJpeg(canvas, quality);
 }
 
 export function formatKB(bytes: number) {

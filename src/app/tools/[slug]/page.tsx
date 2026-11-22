@@ -3,116 +3,117 @@ import { notFound } from "next/navigation";
 import ImageTool from "@/components/ImageTool";
 import ToolPage from "@/components/ToolPage";
 import { pageMetadata } from "@/lib/seo";
-import { compressSizes } from "@/lib/tools";
-import { docNoun, docPagesForCompressSize } from "@/lib/docs";
-
-// Each size gets its own content so the pages are genuinely different, not copies.
-const details: Record<number, { uses: string[]; note: string; min: number }> = {
-  10: {
-    min: 4,
-    uses: ["Signatures for older state PSC and university forms", "Thumb impressions with a 10 KB cap", "Very small profile pictures"],
-    note: "10 KB is extremely small. For a colour photo, the tool will usually need to reduce the pixel size as well as the quality. Signatures on a white background compress much better than photos.",
-  },
-  20: {
-    min: 10,
-    uses: ["Signatures for SSC and IBPS forms (10–20 KB)", "Photos for some state recruitment and scholarship portals", "Small ID photos for college admission forms"],
-    note: "A 200 × 230 px passport photo usually fits under 20 KB with good quality. Larger photos will be scaled down automatically if needed.",
-  },
-  30: {
-    min: 10,
-    uses: ["NEET signature (4–30 KB)", "Photos for portals with a 30 KB cap", "Scanned thumb impressions"],
-    note: "30 KB is a comfortable size for a passport photo up to about 300 × 400 px.",
-  },
-  50: {
-    min: 20,
-    uses: ["IBPS and SBI photos (20–50 KB)", "Thumb impressions for banking forms", "Most state government job portals"],
-    note: "50 KB is the most common upper limit in Indian exam forms. If your form also has a minimum like 20 KB, set it in the Minimum box.",
-  },
-  100: {
-    min: 20,
-    uses: ["UPSC signature sheet (20–100 KB)", "IBPS handwritten declaration (50–100 KB)", "Scholarship and university document photos"],
-    note: "At 100 KB you can keep a fairly large image. Most phone photos only need light compression to reach this size.",
-  },
-  200: {
-    min: 10,
-    uses: ["UPSC photo (20–200 KB)", "NEET passport and postcard photos (10–200 KB)", "Passport Seva and visa portal photos"],
-    note: "200 KB keeps most phone photos sharp. The tool keeps your original pixel size unless the file cannot fit.",
-  },
-};
-
-const slugFor = (kb: number) => `compress-image-to-${kb}kb`;
+import { allDocPages, docNoun } from "@/lib/docs";
+import { allSizePages, getSizePage, maxPages, rangePages, cmToPx, type SizePage } from "@/lib/sizePages";
+import { getPdfSizePage, pdfSizePages, type PdfSizePage } from "@/lib/pdfPages";
+import { CompressPdf, ImageToPdf } from "@/components/PdfTools";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return compressSizes.map((kb) => ({ slug: slugFor(kb) }));
-}
-
-function sizeFromSlug(slug: string) {
-  const m = /^compress-image-to-(\d+)kb$/.exec(slug);
-  const kb = m ? Number(m[1]) : NaN;
-  return (compressSizes as readonly number[]).includes(kb) ? kb : null;
+  return [...allSizePages, ...pdfSizePages].map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const kb = sizeFromSlug(slug);
-  if (!kb) return {};
-  return pageMetadata({
-    title: `Compress Image to ${kb} KB Online — JPG, PNG to ${kb}KB`,
-    description: `Reduce any photo or signature to under ${kb} KB in seconds, without uploading it. Ideal for government exam and job application forms.`,
-    path: `/tools/${slug}`,
-  });
+  const page = getSizePage(slug) ?? getPdfSizePage(slug);
+  if (!page) return {};
+  return pageMetadata({ title: page.metaTitle, description: page.description, path: `/tools/${page.slug}` });
 }
 
-export default async function CompressPage({ params }: { params: Promise<{ slug: string }> }) {
+/** Exam document pages whose limits match this page. */
+function matchingDocs(page: SizePage) {
+  const docs = allDocPages();
+  if (page.kind === "max") {
+    const sizes = maxPages.map((m) => m.kb);
+    return docs.filter((d) => sizes.find((s) => s >= d.doc.maxKB) === page.kb);
+  }
+  if (page.kind === "range") {
+    return docs.filter((d) => d.doc.minKB === page.minKB && Math.abs(d.doc.maxKB - page.maxKB) <= 1);
+  }
+  return docs.filter((d) => d.doc.kind === (page.subject === "signature" ? "signature" : "photo") && d.doc.minKB === page.minKB);
+}
+
+function Tool({ page }: { page: SizePage }) {
+  if (page.kind === "max") {
+    return <ImageTool compressOnly defaultMinKB={0} defaultMaxKB={page.kb} fileBaseName={`compressed-${page.kb}kb`} />;
+  }
+  if (page.kind === "range") {
+    return <ImageTool compressOnly defaultMinKB={page.minKB} defaultMaxKB={page.maxKB} fileBaseName={`${page.subject}-${page.minKB}-${page.maxKB}kb`} />;
+  }
+  return (
+    <ImageTool
+      presets={[
+        {
+          id: page.slug,
+          label: `${page.widthCm} × ${page.heightCm} cm ${page.subject}`,
+          width: cmToPx(page.widthCm, page.dpi),
+          height: cmToPx(page.heightCm, page.dpi),
+          minKB: page.minKB,
+          maxKB: page.maxKB,
+          dpi: page.dpi,
+          signature: page.subject === "signature",
+        },
+      ]}
+      defaultUnit="cm"
+      openSize
+      fileBaseName={`${page.subject}-${page.widthCm}x${page.heightCm}cm`}
+    />
+  );
+}
+
+function steps(page: SizePage): string[] {
+  if (page.kind === "dimension") {
+    return [
+      "Choose your photo or a picture of your signature.",
+      `The size is already set to ${page.widthCm} × ${page.heightCm} cm at ${page.dpi} DPI. Change cm, DPI or KB if your notice says otherwise.`,
+      "Drag and zoom so the face or signature fills the frame.",
+      "Download the JPG once it shows “within limit”.",
+    ];
+  }
+  const range = page.kind === "range" ? `${page.minKB}–${page.maxKB} KB` : `under ${page.kb} KB`;
+  return [
+    "Tap the upload box and choose your image (or paste it with Ctrl+V).",
+    `The tool finds the sharpest version that is ${range}${page.kind === "range" ? ", padding small files up to the minimum" : ""}.`,
+    page.kind === "max" ? "If your form also needs a minimum size, type it in the Min KB box." : "Check the KB meter shows the file inside the green window.",
+    "Tap Download JPG and upload it to your form.",
+  ];
+}
+
+export default async function SizeToolPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const kb = sizeFromSlug(slug);
-  if (!kb) notFound();
-  const d = details[kb];
-  const others = compressSizes.filter((s) => s !== kb);
-  const examDocs = docPagesForCompressSize(kb);
+  const pdfPage = getPdfSizePage(slug);
+  if (pdfPage) return <PdfSizeToolPage page={pdfPage} />;
+  const page = getSizePage(slug);
+  if (!page) notFound();
+  const docs = matchingDocs(page);
+  const siblings =
+    page.kind === "max" ? maxPages.filter((m) => m.slug !== page.slug) : page.kind === "range" ? rangePages.filter((r) => r.slug !== page.slug) : [];
 
   return (
     <ToolPage
-      title={`Compress Image to ${kb} KB`}
-      path={`/tools/${slug}`}
-      intro={`Choose a JPG, PNG or WebP image and get a JPG under ${kb} KB with the best quality that fits. The image is processed on your device and never uploaded.`}
-      tool={<ImageTool compressOnly defaultMinKB={0} defaultMaxKB={kb} fileBaseName={`compressed-${kb}kb`} />}
-      steps={[
-        "Tap the upload box and choose your image.",
-        `The tool automatically finds the highest quality that keeps the file under ${kb} KB.`,
-        "If your form also needs a minimum size, type it in the Minimum box.",
-        "Tap Download JPG and upload the file to your form.",
-      ]}
-      faqs={[
-        {
-          q: `How do I reduce a photo to ${kb} KB without losing quality?`,
-          a: `Every compression removes some detail, but this tool tests many quality levels and keeps the sharpest version that is still under ${kb} KB. Starting with a well-lit, in-focus photo gives the best result.`,
-        },
-        {
-          q: "Does this change the width and height of my image?",
-          a: `Only if needed. The tool first keeps your original pixel size; if the file cannot get under ${kb} KB, it reduces the dimensions step by step. To set an exact pixel size, use the photo resizer.`,
-        },
-        {
-          q: "Can I compress a PDF here?",
-          a: "This tool works with images. If your form asks for a PDF, compress the image first and then convert it to PDF.",
-        },
-      ]}
+      title={page.title}
+      path={`/tools/${page.slug}`}
+      intro={page.intro}
+      kicker={page.kind === "max" ? "Compress" : page.kind === "range" ? "KB range" : "Size in cm"}
+      tool={<Tool page={page} />}
+      steps={steps(page)}
+      faqs={page.faqs}
     >
-      <h2>Where a {kb} KB image is needed</h2>
+      <h2>Where this size is used</h2>
       <ul>
-        {d.uses.map((u) => (
+        {page.uses.map((u) => (
           <li key={u}>{u}</li>
         ))}
       </ul>
-      <p>{d.note}</p>
-      {examDocs.length > 0 && (
+      <p>{page.note}</p>
+
+      {docs.length > 0 && (
         <>
-          <h2>Exam uploads that need about {kb} KB</h2>
-          <p>These uploads have a maximum close to {kb} KB. Each link opens a tool already set to that exam&apos;s exact pixel size and KB range.</p>
+          <h2>Exam uploads with this limit</h2>
+          <p>Each link opens the tool already set to that exam&apos;s exact pixel size and KB range.</p>
           <ul>
-            {examDocs.map((p) => (
+            {docs.map((p) => (
               <li key={p.path}>
                 <Link href={p.path}>
                   {p.exam.name} {docNoun[p.doc.kind].toLowerCase()}
@@ -123,20 +124,64 @@ export default async function CompressPage({ params }: { params: Promise<{ slug:
           </ul>
         </>
       )}
+
+      {siblings.length > 0 && (
+        <>
+          <h2>Other sizes</h2>
+          <p>
+            {siblings.map((s, i) => (
+              <span key={s.slug}>
+                <Link href={`/tools/${s.slug}`}>{s.kind === "max" ? `${s.kb} KB` : s.title.replace("Resize ", "")}</Link>
+                {i < siblings.length - 1 ? " · " : ""}
+              </span>
+            ))}
+          </p>
+        </>
+      )}
+
       <p>
-        If your form gives an exact pixel size too (for example 200 × 230 px), use the{" "}
-        <Link href="/tools/photo-resizer">photo resizer</Link> or the{" "}
-        <Link href="/tools/signature-resizer">signature resizer</Link>, which handle both at once. Typical minimum for
-        this size: about {d.min} KB.
+        Need an exact size in pixels or cm as well? Use the <Link href="/tools/photo-resizer">photo resizer</Link>, the{" "}
+        <Link href="/tools/signature-resizer">signature resizer</Link> or <Link href="/tools/resize-image-in-cm">resize image in cm</Link>.
       </p>
+    </ToolPage>
+  );
+}
+
+function PdfSizeToolPage({ page }: { page: PdfSizePage }) {
+  const siblings = pdfSizePages.filter((p) => p.kind === page.kind && p.slug !== page.slug);
+  const isCompress = page.kind === "compress-pdf";
+  return (
+    <ToolPage
+      title={page.title}
+      path={`/tools/${page.slug}`}
+      intro={page.intro}
+      kicker="PDF"
+      tool={isCompress ? <CompressPdf defaultMaxKB={page.kb} /> : <ImageToPdf defaultMaxKB={page.kb} />}
+      steps={
+        isCompress
+          ? ["Add your PDF.", `Keep the target at ${page.title.replace("Compress PDF to ", "")} or pick another size.`, "Press Compress PDF and wait a few seconds.", "Download the smaller PDF and upload it to your form."]
+          : ["Add one or more photos or scanned pages.", "Put them in order with the arrows.", "Press Create PDF.", "Download the PDF and upload it to your form."]
+      }
+      faqs={page.faqs}
+    >
+      <h2>Where this is needed</h2>
+      <ul>
+        {page.uses.map((u) => (
+          <li key={u}>{u}</li>
+        ))}
+      </ul>
       <h2>Other sizes</h2>
       <p>
-        {others.map((s, i) => (
-          <span key={s}>
-            <Link href={`/tools/${slugFor(s)}`}>compress to {s} KB</Link>
-            {i < others.length - 1 ? " · " : ""}
+        {siblings.map((s, i) => (
+          <span key={s.slug}>
+            <Link href={`/tools/${s.slug}`}>{s.title}</Link>
+            {i < siblings.length - 1 ? " · " : ""}
           </span>
         ))}
+      </p>
+      <p>
+        More PDF tools: <Link href="/tools/image-to-pdf">image to PDF</Link> · <Link href="/tools/compress-pdf">compress PDF</Link> ·{" "}
+        <Link href="/tools/pdf-to-jpg">PDF to JPG</Link> · <Link href="/tools/merge-pdf">merge PDF</Link>
       </p>
     </ToolPage>
   );

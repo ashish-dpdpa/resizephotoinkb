@@ -19,6 +19,8 @@ export interface PostMeta {
   updated?: string;
   category: string;
   tags: string[];
+  /** "hi" for Hindi posts; defaults to English. */
+  lang: "en" | "hi";
   readingMinutes: number;
 }
 
@@ -31,7 +33,7 @@ function slugify(text: string) {
   return text
     .toLowerCase()
     .replace(/<[^>]+>/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/[^\p{L}\p{M}\p{N}\s-]/gu, "")
     .trim()
     .replace(/\s+/g, "-");
 }
@@ -52,6 +54,7 @@ function toMeta(slug: string, data: Record<string, unknown>, content: string): P
     updated: data.updated ? String(data.updated) : undefined,
     category: String(data.category ?? "Guides"),
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    lang: data.lang === "hi" ? "hi" : "en",
     readingMinutes: Math.max(1, Math.round(words / 200)),
   };
 }
@@ -73,10 +76,14 @@ export function getPost(slug: string): Post | null {
   if (!/^[a-z0-9-]+$/.test(slug) || !fs.existsSync(path.join(BLOG_DIR, `${slug}.md`))) return null;
   const { data, content } = readFile(slug);
   const headings: { id: string; text: string }[] = [];
+  const used = new Map<string, number>();
   const renderer = new marked.Renderer();
   renderer.heading = ({ tokens, depth }) => {
     const text = marked.Parser.parseInline(tokens);
-    const id = slugify(text);
+    const baseId = slugify(text) || "section";
+    const n = (used.get(baseId) ?? 0) + 1;
+    used.set(baseId, n);
+    const id = n > 1 ? `${baseId}-${n}` : baseId;
     if (depth === 2) headings.push({ id, text: text.replace(/<[^>]+>/g, "") });
     return `<h${depth} id="${id}">${text}</h${depth}>`;
   };

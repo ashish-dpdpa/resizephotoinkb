@@ -24,11 +24,13 @@ export interface Exam {
   name: string; // short name, e.g. "SSC CGL"
   fullName: string;
   body: string; // conducting body
-  category: "SSC" | "UPSC" | "Banking" | "Railway" | "State Police" | "Medical" | "Teaching";
+  category: "SSC" | "UPSC" | "Banking" | "Railway" | "Postal" | "Defence" | "State Police" | "State Exams" | "Medical" | "Entrance" | "Teaching" | "Certification" | "Documents";
   officialSite: string;
   noticeRef: string; // which notice the values come from
   lastChecked: string; // ISO date
   livePhoto: boolean; // photo captured live during the form instead of uploaded
+  /** Document that should carry name + date of photograph (turns the caption option on). */
+  captionDoc?: DocKind;
   intro: string;
   docs: DocSpec[];
   notes: string[];
@@ -217,6 +219,7 @@ export const exams: Exam[] = [
   },
   {
     slug: "upsc-cse",
+    captionDoc: "photo",
     name: "UPSC CSE",
     fullName: "UPSC Civil Services Examination",
     body: "Union Public Service Commission",
@@ -699,6 +702,7 @@ export const exams: Exam[] = [
   },
   {
     slug: "neet-ug",
+    captionDoc: "postcard",
     name: "NEET UG",
     fullName: "National Eligibility cum Entrance Test (UG)",
     body: "National Testing Agency (NTA)",
@@ -816,6 +820,262 @@ export const exams: Exam[] = [
         q: "What is the CTET signature size?",
         a: "3.5 cm × 1.5 cm (about 413 × 177 px at 300 DPI), 3–30 KB in JPG.",
       },
+    ],
+  },
+  {
+    slug: "ibps-rrb",
+    name: "IBPS RRB",
+    fullName: "IBPS RRB Officer Scale-I & Office Assistant (CRP RRBs)",
+    body: "Institute of Banking Personnel Selection",
+    category: "Banking",
+    officialSite: "https://www.ibps.in",
+    noticeRef: "IBPS CRP RRBs-XV notification (as reported, September 2026)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "IBPS RRB recruits Office Assistants (multipurpose) and Officers for Regional Rural Banks across India. The upload rules are the same four-image set as other IBPS exams, and many candidates apply to RRB, PO and Clerk in the same year — one set of files can serve all three if the limits match.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 200, height: 230, dpi: 200, dimensionNote: "200 × 230 px (preferred).", tips: ["Recent colour photo, light background.", "Face straight to the camera, no cap or dark glasses."] },
+      { kind: "signature", label: "Signature", minKB: 10, maxKB: 20, width: 140, height: 60, dpi: 200, dimensionNote: "140 × 60 px (preferred).", tips: ["Black ink on white paper.", "Not in capital letters."] },
+      { kind: "thumb", label: "Left thumb impression", minKB: 20, maxKB: 50, width: 240, height: 240, dpi: 200, dimensionNote: "240 × 240 px at 200 DPI (3 cm × 3 cm).", tips: ["Blue or black ink on white paper, ridges clearly visible."] },
+      { kind: "declaration", label: "Handwritten declaration", minKB: 50, maxKB: 100, width: 800, height: 400, dpi: 200, dimensionNote: "800 × 400 px at 200 DPI (10 cm × 5 cm).", tips: ["Copy the declaration text from the notice in English, in your own handwriting.", "Not in capital letters."] },
+    ],
+    notes: [
+      "Office Assistant candidates need proficiency in the local language of the state they apply for; this does not change the image rules.",
+      "If you applied for IBPS PO or Clerk this year, the photo, signature and thumb files can be reused.",
+    ],
+    faqs: [
+      { q: "What is the IBPS RRB photo size?", a: "20–50 KB in JPG, 200 × 230 px preferred, as reported from the CRP RRBs-XV notification." },
+      { q: "Is the IBPS RRB declaration the same as IBPS PO?", a: "The size is the same (50–100 KB, 800 × 400 px). Copy the exact text printed in the RRB notification." },
+    ],
+  },
+  {
+    slug: "india-post-gds",
+    name: "India Post GDS",
+    fullName: "India Post Gramin Dak Sevak (BPM / ABPM / Dak Sevak)",
+    body: "Department of Posts",
+    category: "Postal",
+    officialSite: "https://indiapostgdsonline.gov.in",
+    noticeRef: "India Post GDS online engagement schedule 2026, Annexure II (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "GDS recruitment is merit-based on 10th marks, so there is no exam — but the online application must have an acceptable photo and signature. The portal's annexure gives only maximum sizes, and guides quote different pixel sizes, so the safest approach is a clear photo kept under 50 KB and a signature under 20 KB.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 10, maxKB: 50, width: 320, height: 400, dimensionNote: "Maximum 50 KB as reported; no fixed pixel size. Our preset exports 320 × 400 px.", tips: ["Recent colour photo on a light background.", "Face clearly visible, no cap or dark glasses."] },
+      { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 300, height: 120, dimensionNote: "Maximum 20 KB as reported. Our preset exports 300 × 120 px (wide, 5:2).", tips: ["Sign in black or blue ink on white paper.", "Crop close to the signature with a thin white margin."] },
+    ],
+    notes: [
+      "Some later guides quote 30–100 KB for the photo and 20–100 KB for the signature. Follow the limit shown on the GDS portal’s upload screen when you apply.",
+      "Many GDS-related searches ask about joining the photo and signature into one image; the GDS portal takes them as separate files, but our join tool is there if a form asks for one.",
+    ],
+    faqs: [
+      { q: "What is the India Post GDS photo size?", a: "Up to 50 KB in JPG as given in the portal annexure (as reported). Keep it a clear, recent colour photo." },
+      { q: "What is the GDS signature size?", a: "Up to 20 KB in JPG. A wide crop around 300 × 120 px works well." },
+      { q: "Is there an exam for GDS?", a: "No. Selection is based on 10th class marks, but your application can be rejected for a wrong or unclear photo." },
+    ],
+  },
+  {
+    slug: "agniveer-army",
+    name: "Agniveer (Army)",
+    fullName: "Indian Army Agniveer Common Entrance Exam",
+    body: "Indian Army",
+    category: "Defence",
+    officialSite: "https://joinindianarmy.nic.in",
+    noticeRef: "Indian Army Agniveer CEE 2026 notification (as reported; sources differ)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "The Agniveer online application on the Join Indian Army portal asks for a recent passport photo and signature. Different guides quote different limits, but the most widely reported values are a 20–50 KB photo and a 10–20 KB signature on a white background.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 413, height: 531, dpi: 300, dimensionNote: "Passport size (3.5 × 4.5 cm). Our preset exports 413 × 531 px at 300 DPI.", tips: ["Recent colour photo with a white background.", "Face clearly visible, no cap, short neat hair is expected at the rally anyway."] },
+      { kind: "signature", label: "Signature", minKB: 10, maxKB: 20, width: 413, height: 177, dpi: 300, dimensionNote: "About 3.5 × 1.5 cm. Our preset exports 413 × 177 px.", tips: ["Sign on plain white paper with a dark pen."] },
+    ],
+    notes: [
+      "One guide lists much lower limits (photo 10–20 KB, signature 5–10 KB). If the portal rejects your file, change the KB range in the tool to match the message.",
+      "Carry printed copies of the same photo to the recruitment rally and document verification.",
+    ],
+    faqs: [
+      { q: "What is the Agniveer photo size?", a: "Most guides report 20–50 KB in JPG with a white background (as reported for the 2026 CEE)." },
+      { q: "What is the Agniveer signature size?", a: "Most guides report 10–20 KB in JPG." },
+    ],
+  },
+  {
+    slug: "upsssc-pet",
+    name: "UPSSSC PET",
+    fullName: "UPSSSC Preliminary Eligibility Test",
+    body: "Uttar Pradesh Subordinate Services Selection Commission",
+    category: "State Exams",
+    officialSite: "https://upsssc.gov.in",
+    noticeRef: "UPSSSC PET notice (as reported by third-party guides)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "PET is the gateway exam for most Group C posts in Uttar Pradesh, and its score is used for later UPSSSC recruitments — so lakhs of candidates fill this form. The notice gives the photo and signature in centimetres, which this page converts to pixels for you.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 276, height: 354, dpi: 200, dimensionNote: "3.5 × 4.5 cm. Our preset exports 276 × 354 px at 200 DPI.", tips: ["White or light plain background.", "Recent colour photo, face covering most of the frame."] },
+      { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 276, height: 118, dpi: 200, dimensionNote: "3.5 × 1.5 cm. Our preset exports 276 × 118 px at 200 DPI.", tips: ["Black ink on white paper.", "Keep the whole signature inside the frame."] },
+    ],
+    notes: [
+      "We could not find the official PET notice text for these values — confirm them on upsssc.gov.in before submitting.",
+      "Use the same photo you will carry on exam day; the admit card is matched against it.",
+    ],
+    faqs: [
+      { q: "What is the UPSSSC PET photo size?", a: "3.5 × 4.5 cm, up to 50 KB in JPG, as reported." },
+      { q: "What is the UPSSSC PET signature size?", a: "3.5 × 1.5 cm, up to 20 KB in JPG, as reported." },
+    ],
+  },
+  {
+    slug: "tnpsc-group-4",
+    captionDoc: "photo",
+    name: "TNPSC Group 4",
+    fullName: "TNPSC Combined Civil Services Examination – IV (Group 4)",
+    body: "Tamil Nadu Public Service Commission",
+    category: "State Exams",
+    officialSite: "https://www.tnpsc.gov.in",
+    noticeRef: "TNPSC Group 4 notification 2026 (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "TNPSC uses a One Time Registration (OTR) where your photo and signature are stored and reused for every application. Several guides say the photo should show your name and the date it was taken — this page lets you add both.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 20, maxKB: 50, width: 276, height: 354, dpi: 200, dimensionNote: "3.5 × 4.5 cm. Guides give different pixel sizes; our preset exports 276 × 354 px at 200 DPI.", tips: ["Name and date of photograph printed at the bottom, as many guides advise.", "Light plain background."] },
+      { kind: "signature", label: "Signature", minKB: 10, maxKB: 20, width: 200, height: 80, dimensionNote: "Pixel sizes vary between guides (200 × 80 to 200 × 100 px). Our preset exports 200 × 80 px.", tips: ["Black or blue ink on unruled white paper."] },
+    ],
+    notes: [
+      "The photo and signature you upload in OTR are used for future TNPSC exams too, so use a good, recent photo.",
+      "Older guides list GIF or very small pixel sizes; current guides use JPG with the limits above.",
+    ],
+    faqs: [
+      { q: "What is the TNPSC photo size?", a: "20–50 KB in JPG, as reported for Group 4 2026." },
+      { q: "Does the TNPSC photo need name and date?", a: "Several guides say yes. Switch on “Name & date under photo” in the tool above to add them." },
+      { q: "What is the TNPSC signature size?", a: "10–20 KB in JPG." },
+    ],
+  },
+  {
+    slug: "bihar-police-constable",
+    name: "Bihar Police",
+    fullName: "CSBC Bihar Police Constable Recruitment",
+    body: "Central Selection Board of Constable (CSBC), Bihar",
+    category: "State Police",
+    officialSite: "https://csbc-bih.bihar.gov.in",
+    noticeRef: "CSBC advertisements 01/2025 and 02/2026 (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "CSBC Bihar forms set a narrow 15–25 KB window for the photo and the signature — and ask for your signature twice, once in English and once in Hindi. Both signatures follow the same size rule.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 15, maxKB: 25, width: 276, height: 354, dpi: 200, dimensionNote: "No pixel size in the notice as reported. Our preset exports 3.5 × 4.5 cm (276 × 354 px at 200 DPI).", tips: ["Recent colour photo on a light background."] },
+      { kind: "signature", label: "Signature (English and Hindi)", minKB: 15, maxKB: 25, width: 276, height: 118, dpi: 200, dimensionNote: "15–25 KB each. Our preset exports 3.5 × 1.5 cm (276 × 118 px).", tips: ["Make two files: one signature in English, one in Hindi.", "Black ink on white paper."] },
+    ],
+    notes: [
+      "Because the minimum is 15 KB, small signature files are often rejected as too small — the tool pads them to the minimum automatically.",
+      "Some sites list wider limits (20–200 KB). Follow the advertisement for your post.",
+    ],
+    faqs: [
+      { q: "What is the Bihar Police photo size?", a: "15–25 KB in JPG, as reported from recent CSBC advertisements." },
+      { q: "Why two signatures?", a: "CSBC asks for your signature in English and in Hindi. Prepare both with the same 15–25 KB limit." },
+    ],
+  },
+  {
+    slug: "jee-main",
+    name: "JEE Main",
+    fullName: "Joint Entrance Examination (Main)",
+    body: "National Testing Agency (NTA)",
+    category: "Entrance",
+    officialSite: "https://jeemain.nta.nic.in",
+    noticeRef: "JEE Main 2026 information bulletin (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "JEE Main has generous file limits, but NTA is strict about the photo itself: it must be recent, in colour, with a clear face — and it is checked against you at the centre. Photo mismatch notices are common, so prepare it carefully.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 10, maxKB: 200, width: 413, height: 531, dpi: 300, dimensionNote: "Passport size (3.5 × 4.5 cm). Our preset exports 413 × 531 px at 300 DPI.", tips: ["Recent colour photo, white background, 80% face coverage, ears visible.", "No caps, dark glasses or filters."] },
+      { kind: "signature", label: "Signature", minKB: 10, maxKB: 100, width: 413, height: 177, dpi: 300, dimensionNote: "No fixed pixel size reported. Our preset exports 3.5 × 1.5 cm (413 × 177 px).", tips: ["Sign on white paper with a black pen, in running hand."] },
+    ],
+    notes: [
+      "Some older guides give a 300 KB photo limit or a 4–30 KB signature limit; the 2026 values most widely reported are 10–200 KB and 10–100 KB.",
+      "If you get a photo mismatch notice, upload a clear new photo through the correction window.",
+    ],
+    faqs: [
+      { q: "What is the JEE Main photo size?", a: "10–200 KB in JPG, as reported for 2026." },
+      { q: "What is the JEE Main signature size?", a: "10–100 KB in JPG, as reported." },
+    ],
+  },
+  {
+    slug: "cuet-ug",
+    name: "CUET UG",
+    fullName: "Common University Entrance Test (UG)",
+    body: "National Testing Agency (NTA)",
+    category: "Entrance",
+    officialSite: "https://cuet.nta.nic.in",
+    noticeRef: "CUET UG 2026 information bulletin (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "CUET UG is the admission test for central universities, and its photo rules follow the usual NTA pattern. Every year some candidates receive photo-mismatch notices, so use a clear, recent photo with a plain background.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 10, maxKB: 200, width: 413, height: 531, dpi: 300, dimensionNote: "No pixel size in the bulletin as reported. Our preset exports 3.5 × 4.5 cm (413 × 531 px at 300 DPI).", tips: ["Recent colour photo, light background, face clearly visible."] },
+      { kind: "signature", label: "Signature", minKB: 10, maxKB: 50, width: 300, height: 120, dimensionNote: "No fixed pixel size reported. Our preset exports 300 × 120 px.", tips: ["Black ink on white paper."] },
+    ],
+    notes: [
+      "Older guides quote 4–30 KB for the signature; the 2026 bulletin is reported to use 10–50 KB.",
+      "Keep printed copies of the same photo for the exam day.",
+    ],
+    faqs: [
+      { q: "What is the CUET UG photo size?", a: "10–200 KB in JPG, as reported for 2026." },
+      { q: "What is the CUET UG signature size?", a: "10–50 KB in JPG, as reported for 2026." },
+    ],
+  },
+  {
+    slug: "nielit-ccc",
+    name: "NIELIT CCC",
+    fullName: "NIELIT Course on Computer Concepts (CCC)",
+    body: "National Institute of Electronics & Information Technology",
+    category: "Certification",
+    officialSite: "https://student.nielit.gov.in",
+    noticeRef: "NIELIT CCC examination guideline (as reported)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "The CCC certificate is required for many UP and central government jobs. NIELIT gives small, exact pixel sizes for the photo, and it cancels applications where the wrong photo is uploaded in the photo box.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 5, maxKB: 50, width: 132, height: 170, dpi: 96, dimensionNote: "3.5 × 4.5 cm, 132 × 170 px, 96–300 DPI.", tips: ["White background, recent colour photo (NIELIT says not older than six months).", "Upload it in the photo field — not the signature field."] },
+      { kind: "signature", label: "Signature", minKB: 5, maxKB: 20, width: 140, height: 60, dpi: 96, dimensionNote: "5–20 KB, 96–200 DPI. Our preset exports 140 × 60 px.", tips: ["Black or blue ink on white paper."] },
+    ],
+    notes: [
+      "NIELIT has cancelled applications where the photograph was uploaded in the wrong place — check the preview before you pay.",
+      "The signature limit is inferred from the guideline layout; confirm it on the application form.",
+    ],
+    faqs: [
+      { q: "What is the CCC photo size?", a: "5–50 KB in JPG, 132 × 170 px (3.5 × 4.5 cm), as given in the NIELIT guideline." },
+      { q: "What is the CCC signature size?", a: "5–20 KB in JPG." },
+    ],
+  },
+  {
+    slug: "pan-card",
+    name: "PAN Card",
+    fullName: "PAN application (Protean/NSDL and UTIITSL)",
+    body: "Income Tax Department (via Protean and UTIITSL)",
+    category: "Documents",
+    officialSite: "https://www.onlineservices.nsdl.com",
+    noticeRef: "Protean (NSDL) and UTIITSL upload instructions (as reported; sources differ)",
+    lastChecked: "2026-11-22",
+    livePhoto: false,
+    intro:
+      "New PAN and PAN correction forms ask for a scanned photo and signature in centimetres at 200 DPI. Phone cropping apps often change the DPI, which is why uploads fail — this tool writes 200 DPI into the file.",
+    docs: [
+      { kind: "photo", label: "Photograph", minKB: 5, maxKB: 50, width: 197, height: 276, dpi: 200, dimensionNote: "2.5 × 3.5 cm at 200 DPI = 197 × 276 px.", tips: ["White background, colour photo, face clearly visible."] },
+      { kind: "signature", label: "Signature", minKB: 5, maxKB: 50, width: 354, height: 157, dpi: 200, dimensionNote: "4.5 × 2 cm at 200 DPI = 354 × 157 px.", tips: ["Sign on white paper with a dark pen, inside the box area."] },
+    ],
+    notes: [
+      "UTIITSL and some guides quote different pixel sizes (for example 213 × 213 px photo or 400 × 200 px signature). Use the size shown on the portal you are applying through.",
+      "Both photo and signature must be JPG and under the KB limit, with 200 DPI.",
+    ],
+    faqs: [
+      { q: "What is the PAN card photo size?", a: "2.5 × 3.5 cm at 200 DPI (197 × 276 px), under 50 KB, for Protean/NSDL as reported." },
+      { q: "What is the PAN card signature size?", a: "4.5 × 2 cm at 200 DPI (354 × 157 px), under 50 KB." },
+      { q: "Why does the PAN site say invalid DPI?", a: "Many apps save images at 72 DPI. This tool writes 200 DPI into the JPG." },
     ],
   },
 ];

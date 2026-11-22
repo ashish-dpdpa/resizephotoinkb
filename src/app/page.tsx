@@ -21,7 +21,7 @@ const popular = ["ssc-cgl", "sbi-po", "ibps-po", "neet-ug", "rrb-ntpc", "ctet"];
 const mainTools = [
   { href: "/tools/photo-resizer", title: "Photo resizer", text: "Exact pixels and KB for any exam.", icon: "photo" },
   { href: "/tools/signature-resizer", title: "Signature resizer", text: "Cleans grey paper to pure white.", icon: "sign" },
-  { href: "/tools/compress-image-to-50kb", title: "Compress to KB", text: "10, 20, 50, 100 or 200 KB.", icon: "squeeze" },
+  { href: "/tools/resize-photo-20kb-to-50kb", title: "Resize to a KB range", text: "20–50 KB, 10–20 KB, 30–50 KB and more.", icon: "squeeze" },
   { href: "/tools/age-calculator", title: "Age calculator", text: "Age on the cut-off date.", icon: "calendar" },
 ] as const;
 
@@ -87,6 +87,20 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="label mr-1">Also popular</span>
+            {[
+              ["/tools/photo-with-name-and-date", "Photo with name & date"],
+              ["/tools/passport-size-photo-maker", "Passport photo + white background"],
+              ["/tools/join-photo-and-signature", "Join photo & signature"],
+              ["/tools/compress-pdf", "Compress PDF"],
+              ["/tools/image-to-pdf", "Image to PDF"],
+              ["/tools/signature-resize-10-to-20-kb", "Signature 10–20 KB"],
+              ["/tools/resize-image-in-cm", "Resize in cm"],
+            ].map(([href, label]) => (
+              <Link key={href} href={href} className="chip">{label}</Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -108,7 +122,7 @@ export default function Home() {
                   <li key={e.slug}>
                     <Link href={`/exams/${e.slug}`} className="card card-link flex h-full items-center gap-4 p-4">
                       <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-paper-2 font-display text-sm font-extrabold text-ink">
-                        {e.name.split(" ")[0].slice(0, 4)}
+                        {e.name.split(/[\s()]+/).find((w) => /^[A-Z]{2,5}$/.test(w)) ?? e.name.slice(0, 4)}
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block font-bold text-ink">{e.name}</span>
