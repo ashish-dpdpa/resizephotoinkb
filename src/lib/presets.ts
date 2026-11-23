@@ -1,6 +1,14 @@
 import type { Preset } from "@/components/ImageTool";
 import { exams, type DocKind } from "./exams";
 
+/**
+ * Exam-neutral starting sizes for the general tools, shown as the first chip and
+ * selected by default. They are the most common sizes across the exams we cover
+ * (SSC / IBPS style).
+ */
+export const STANDARD_PHOTO: Preset = { id: "standard-photo", label: "Standard size", width: 200, height: 230, minKB: 20, maxKB: 50 };
+export const STANDARD_SIGNATURE: Preset = { id: "standard-signature", label: "Standard size", width: 140, height: 60, minKB: 10, maxKB: 20, signature: true };
+
 /** Build ImageTool presets from exam data, optionally limited to certain document kinds. */
 export function presetsFor(kinds?: DocKind[]): Preset[] {
   const out: Preset[] = [];

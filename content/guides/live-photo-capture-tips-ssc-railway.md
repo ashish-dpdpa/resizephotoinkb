@@ -37,7 +37,7 @@ If the confirmation page or printout shows your photo, save it. Try not to chang
 
 ## The signature is still a file
 
-Live capture only replaces the photo. You still upload a **signature** as a JPG, and the limits are tight: a reported 30 to 49 KB for RRB NTPC 2026, and 10 to 20 KB for SSC CGL. Make it ahead of time with the [signature resizer](/tools/signature-resizer), and see [how to scan your signature with a phone](/blog/how-to-scan-signature-for-online-form) if you haven't done it before.
+Live capture only replaces the photo. You still upload a **signature** as a JPG, and the limits are tight: a reported 30 to 49 KB for RRB NTPC 2026, and 10 to 20 KB for SSC CGL. Make it ahead of time with the [signature resizer](/tools/signature-resizer), and see [how to scan your signature with a phone](/guides/how-to-scan-signature-for-online-form) if you haven't done it before.
 
 ## Before you start the form
 

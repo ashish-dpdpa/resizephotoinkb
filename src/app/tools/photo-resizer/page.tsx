@@ -2,7 +2,7 @@ import Link from "next/link";
 import ImageTool from "@/components/ImageTool";
 import ToolPage from "@/components/ToolPage";
 import { pageMetadata } from "@/lib/seo";
-import { presetsFor } from "@/lib/presets";
+import { presetsFor, STANDARD_PHOTO } from "@/lib/presets";
 import { exams } from "@/lib/exams";
 
 const path = "/tools/photo-resizer";
@@ -16,15 +16,16 @@ export const metadata = pageMetadata({
 });
 
 export default function PhotoResizerPage() {
-  const presets = presetsFor(["photo", "postcard"]);
+  // Opens on a general size; exam presets follow for anyone who knows their exam.
+  const presets = [STANDARD_PHOTO, ...presetsFor(["photo", "postcard"])];
   return (
     <ToolPage
       title={title}
       path={path}
-      intro="Pick your exam, choose a photo from your phone or computer, and download a JPG that matches the required width, height and file size. Your photo never leaves your device."
+      intro="It starts on the most common exam size (200 × 230 px, 20–50 KB). Pick your exam if it's listed, choose a photo from your phone or computer, and download a JPG that matches the required width, height and file size. Your photo never leaves your device."
       tool={<ImageTool presets={presets} fileBaseName="photo" />}
       steps={[
-        "Select your exam from the presets, or choose Custom size and type the pixel size and KB range from your notification.",
+        "Keep Standard size, select your exam from the presets, or tap Edit and type the pixel size and KB range from your notification.",
         "Tap the upload box and pick a clear, recent photo with a plain light background.",
         "Use Zoom and the Move sliders so your face is centred and fills most of the frame.",
         "Check that the result says “within limit”, then tap Download JPG and upload that file to the form.",
@@ -40,7 +41,7 @@ export default function PhotoResizerPage() {
         },
         {
           q: "What if my exam is not in the list?",
-          a: "Choose Custom size and enter the width, height and KB range from your notification. You can also find guides for more exams on our blog.",
+          a: "Choose Custom size and enter the width, height and KB range from your notification. You can also find guides for more exams in our guides.",
         },
         {
           q: "Can I use a photo taken on my phone?",

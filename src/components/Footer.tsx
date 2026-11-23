@@ -32,6 +32,7 @@ export default function Footer() {
         <FooterCol
           title="Site"
           links={[
+            { href: "/guides", label: "Guides" },
             { href: "/blog", label: "Blog" },
             { href: "/about", label: "About us" },
             { href: "/contact", label: "Contact" },

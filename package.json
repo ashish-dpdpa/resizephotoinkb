@@ -6,23 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:setup": "node scripts/db.mjs setup",
+    "admin:sync": "node scripts/db.mjs admin"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^1.2.3",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.2",
+    "fflate": "0.8.3",
     "gray-matter": "^4.0.3",
+    "heic-to": "1.6.7",
     "marked": "^18.2.1",
     "next": "15.5.29",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.10.38",
+    "pg": "^8.23.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

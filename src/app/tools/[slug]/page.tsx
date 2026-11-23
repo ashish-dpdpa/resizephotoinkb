@@ -7,16 +7,19 @@ import { allDocPages, docNoun } from "@/lib/docs";
 import { allSizePages, getSizePage, maxPages, rangePages, cmToPx, type SizePage } from "@/lib/sizePages";
 import { getPdfSizePage, pdfSizePages, type PdfSizePage } from "@/lib/pdfPages";
 import { CompressPdf, ImageToPdf } from "@/components/PdfTools";
+import ImageConverter from "@/components/ImageConverter";
+import { convertPages, getConvertPage, type ConvertPage } from "@/lib/convertPages";
+import { OUT_LABEL } from "@/lib/convert";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return [...allSizePages, ...pdfSizePages].map((p) => ({ slug: p.slug }));
+  return [...allSizePages, ...pdfSizePages, ...convertPages].map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const page = getSizePage(slug) ?? getPdfSizePage(slug);
+  const page = getSizePage(slug) ?? getPdfSizePage(slug) ?? getConvertPage(slug);
   if (!page) return {};
   return pageMetadata({ title: page.metaTitle, description: page.description, path: `/tools/${page.slug}` });
 }
@@ -84,6 +87,8 @@ export default async function SizeToolPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const pdfPage = getPdfSizePage(slug);
   if (pdfPage) return <PdfSizeToolPage page={pdfPage} />;
+  const convertPage = getConvertPage(slug);
+  if (convertPage) return <ConvertToolPage page={convertPage} />;
   const page = getSizePage(slug);
   if (!page) notFound();
   const docs = matchingDocs(page);
@@ -182,6 +187,48 @@ function PdfSizeToolPage({ page }: { page: PdfSizePage }) {
       <p>
         More PDF tools: <Link href="/tools/image-to-pdf">image to PDF</Link> · <Link href="/tools/compress-pdf">compress PDF</Link> ·{" "}
         <Link href="/tools/pdf-to-jpg">PDF to JPG</Link> · <Link href="/tools/merge-pdf">merge PDF</Link>
+      </p>
+    </ToolPage>
+  );
+}
+
+function ConvertToolPage({ page }: { page: ConvertPage }) {
+  const to = OUT_LABEL[page.to];
+  const others = convertPages.filter((p) => p.slug !== page.slug);
+  return (
+    <ToolPage
+      title={page.title}
+      path={`/tools/${page.slug}`}
+      intro={page.intro}
+      kicker="Converter"
+      tool={<ImageConverter defaultTo={page.to} fromLabel={page.from} />}
+      steps={[
+        `Add your ${page.from} images: tap the box, drop them in, or paste with Ctrl+V. You can add up to 30 at once.`,
+        page.to === "png"
+          ? `They're converted to ${to} straight away. PNG is lossless, so there's no quality setting.`
+          : `They're converted to ${to} straight away. Adjust the quality, or type a Max size in KB if you have a limit.`,
+        `Download each ${to}, or Download all as a ZIP.`,
+      ]}
+      faqs={page.faqs}
+    >
+      <h2>Why convert {page.from} to {to}?</h2>
+      {page.why.map((p) => (
+        <p key={p.slice(0, 32)}>{p}</p>
+      ))}
+      <h2>Other conversions</h2>
+      <p>
+        {others.map((o, i) => (
+          <span key={o.slug}>
+            <Link href={`/tools/${o.slug}`}>{o.title.replace(" Converter", "")}</Link>
+            {i < others.length - 1 ? " · " : ""}
+          </span>
+        ))}
+        {" · "}
+        <Link href="/tools/image-converter">All formats</Link>
+      </p>
+      <p>
+        Uploading to an exam form? After converting, use the <Link href="/tools/photo-resizer">photo resizer</Link> or{" "}
+        <Link href="/tools/signature-resizer">signature resizer</Link> to match the exact pixel size and KB range.
       </p>
     </ToolPage>
   );

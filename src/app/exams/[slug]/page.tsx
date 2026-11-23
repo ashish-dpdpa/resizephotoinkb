@@ -9,7 +9,7 @@ import { exams, formatDate, getExam } from "@/lib/exams";
 import { examPresets } from "@/lib/presets";
 import { pageMetadata } from "@/lib/seo";
 import { absoluteUrl, siteConfig } from "@/lib/site";
-import { getAllPosts } from "@/lib/blog";
+import { getAllGuides } from "@/lib/guides";
 import { docNoun, docSlug } from "@/lib/docs";
 
 export const dynamicParams = false;
@@ -41,7 +41,7 @@ export default async function ExamPage({ params }: { params: Promise<{ slug: str
   const others = exams.filter((e) => e.slug !== exam.slug);
   const sameCategory = others.filter((e) => e.category === exam.category);
   const rest = others.filter((e) => e.category !== exam.category);
-  const posts = getAllPosts().slice(0, 4);
+  const posts = getAllGuides().slice(0, 4);
   const title = `${exam.name} ${exam.livePhoto ? "Signature" : "Photo & Signature"} Size 2026`;
 
   return (
@@ -156,7 +156,7 @@ export default async function ExamPage({ params }: { params: Promise<{ slug: str
           <ul className="mt-3 divide-y divide-dashed divide-line-2">
             {posts.map((p) => (
               <li key={p.slug}>
-                <Link href={`/blog/${p.slug}`} className="flex items-center justify-between gap-3 py-3 font-semibold text-ink hover:text-pen">
+                <Link href={`/guides/${p.slug}`} className="flex items-center justify-between gap-3 py-3 font-semibold text-ink hover:text-pen">
                   {p.title} <span aria-hidden="true" className="text-ink-3">→</span>
                 </Link>
               </li>

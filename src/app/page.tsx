@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/blog";
+import { getAllGuides } from "@/lib/guides";
 import { exams, type Exam } from "@/lib/exams";
 import { pageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
@@ -25,8 +25,44 @@ const mainTools = [
   { href: "/tools/age-calculator", title: "Age calculator", text: "Age on the cut-off date.", icon: "calendar" },
 ] as const;
 
+const suites = [
+  {
+    href: "/tools/image-converter",
+    icon: "convert",
+    kicker: "Image converter",
+    title: "Convert HEIC, WebP, PNG and JPG.",
+    text: "iPhone photo the form won't take? Convert it to JPG. Batch up to 30 images, set a KB limit and download them all as a ZIP.",
+    cta: "Convert images",
+    note: "HEIC · WebP · PNG · JPG",
+    links: [
+      ["/tools/heic-to-jpg", "HEIC to JPG"],
+      ["/tools/webp-to-jpg", "WebP to JPG"],
+      ["/tools/png-to-jpg", "PNG to JPG"],
+      ["/tools/jpg-to-png", "JPG to PNG"],
+      ["/tools/jpg-to-webp", "JPG to WebP"],
+      ["/tools/png-to-webp", "PNG to WebP"],
+    ],
+  },
+  {
+    href: "/tools/compress-pdf",
+    icon: "pdf",
+    kicker: "PDF tools",
+    title: "Make, shrink and merge PDFs.",
+    text: "Turn scanned certificates into one PDF, get it under the portal's size limit, or pull pages out as JPG images.",
+    cta: "Compress PDF",
+    note: "Runs in your browser",
+    links: [
+      ["/tools/image-to-pdf", "Image to PDF"],
+      ["/tools/merge-pdf", "Merge PDF"],
+      ["/tools/pdf-to-jpg", "PDF to JPG"],
+      ["/tools/compress-pdf-to-100kb", "PDF under 100 KB"],
+      ["/tools/compress-pdf-to-200kb", "PDF under 200 KB"],
+    ],
+  },
+] as const;
+
 export default function Home() {
-  const posts = getAllPosts().slice(0, 3);
+  const posts = getAllGuides().slice(0, 3);
   const index = buildSearchIndex();
   const groups = exams.reduce<Record<string, Exam[]>>((acc, e) => {
     (acc[e.category] ??= []).push(e);
@@ -87,14 +123,66 @@ export default function Home() {
               </li>
             ))}
           </ul>
+
+          {/* feature: background remover */}
+          <Link
+            href="/tools/background-remover"
+            className="card card-link group relative mt-4 grid items-center gap-8 overflow-hidden p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_auto]"
+          >
+            <div>
+              <p className="flex items-center gap-3">
+                <span className="rounded-full bg-stamp px-2.5 py-1 font-mono text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-card">New</span>
+                <span className="label">Photo background remover</span>
+              </p>
+              <h3 className="mt-4 font-display text-2xl font-extrabold leading-tight text-ink sm:text-3xl">
+                Remove the <span className="marker">background</span> from your photo.
+              </h3>
+              <p className="mt-3 max-w-xl text-ink-2">
+                Get a transparent PNG in seconds, or add a plain white or coloured background if you need one. The AI runs
+                on your device, so the photo is never uploaded.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <span className="btn btn-pen">Remove background →</span>
+                <span className="font-mono text-xs text-ink-3">PNG · optional white or colour</span>
+              </div>
+            </div>
+            <BackgroundArt />
+          </Link>
+
+          {/* converters: image formats + PDF */}
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            {suites.map((s) => (
+              <div key={s.href} className="card group/suite flex flex-col p-6 sm:p-8">
+                <div className="flex items-start gap-4">
+                  <SuiteIcon name={s.icon} />
+                  <div className="min-w-0">
+                    <p className="label">{s.kicker}</p>
+                    <h3 className="mt-1 font-display text-2xl font-extrabold leading-tight text-ink">
+                      <Link href={s.href} className="hover:text-pen">{s.title}</Link>
+                    </h3>
+                  </div>
+                </div>
+                <p className="mt-4 text-ink-2">{s.text}</p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {s.links.map(([href, label]) => (
+                    <li key={href}><Link href={href} className="chip">{label}</Link></li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex flex-wrap items-center gap-4 pt-6">
+                  <Link href={s.href} className="btn btn-pen">{s.cta} →</Link>
+                  <span className="font-mono text-xs text-ink-3">{s.note}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="mt-6 flex flex-wrap items-center gap-2">
             <span className="label mr-1">Also popular</span>
             {[
               ["/tools/photo-with-name-and-date", "Photo with name & date"],
               ["/tools/passport-size-photo-maker", "Passport photo + white background"],
               ["/tools/join-photo-and-signature", "Join photo & signature"],
-              ["/tools/compress-pdf", "Compress PDF"],
-              ["/tools/image-to-pdf", "Image to PDF"],
+              ["/tools/signature-maker", "Signature maker"],
               ["/tools/signature-resize-10-to-20-kb", "Signature 10–20 KB"],
               ["/tools/resize-image-in-cm", "Resize in cm"],
             ].map(([href, label]) => (
@@ -186,15 +274,15 @@ export default function Home() {
         <section className="shell py-16">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="label">From the blog</p>
+              <p className="label">Guides</p>
               <h2 className="mt-1 text-3xl font-extrabold text-ink sm:text-4xl">Guides that save you a rejection</h2>
             </div>
-            <Link href="/blog" className="font-semibold text-pen underline underline-offset-4">All guides →</Link>
+            <Link href="/guides" className="font-semibold text-pen underline underline-offset-4">All guides →</Link>
           </div>
           <ul className="mt-8 grid gap-4 md:grid-cols-3">
             {posts.map((p, i) => (
               <li key={p.slug}>
-                <Link href={`/blog/${p.slug}`} className="card card-link flex h-full flex-col p-6">
+                <Link href={`/guides/${p.slug}`} className="card card-link flex h-full flex-col p-6">
                   <span className="font-mono text-xs text-stamp">{String(i + 1).padStart(2, "0")} · {p.category}</span>
                   <span className="mt-3 font-display text-xl font-bold leading-snug text-ink">{p.title}</span>
                   <span className="mt-2 line-clamp-3 text-sm text-ink-2">{p.description}</span>
@@ -278,6 +366,70 @@ function AdmitCardArt() {
         <span className="stamp absolute -bottom-5 right-6 bg-card text-base">Accepted</span>
       </div>
     </div>
+  );
+}
+
+/** The same illustrated person as the hero, shown before (busy room) and after (transparent). */
+function Person() {
+  return (
+    <>
+      <circle cx="56" cy="50" r="22" fill="#c9a27e" />
+      <path d="M30 42c2-16 14-24 26-24s24 8 26 24c-6-6-14-9-26-9s-20 3-26 9z" fill="#2b2118" />
+      <path d="M14 132c4-28 20-42 42-42s38 14 42 42z" fill="#2337c6" />
+      <path d="M46 92l10 12 10-12" fill="#fffdf8" />
+    </>
+  );
+}
+
+function BackgroundArt() {
+  return (
+    <div className="flex items-center justify-center gap-3 sm:gap-5" aria-hidden="true">
+      <figure className="text-center">
+        <div className="h-[132px] w-[112px] overflow-hidden rounded-md border border-line-2 sm:h-[154px] sm:w-[131px]">
+          <svg viewBox="0 0 112 132" className="h-full w-full">
+            {/* cluttered room: wall, door, shelf, poster */}
+            <rect width="112" height="132" fill="#c7b79a" />
+            <rect x="0" y="0" width="34" height="132" fill="#8a6a4a" />
+            <rect x="4" y="8" width="26" height="60" fill="#9c7a56" />
+            <circle cx="26" cy="74" r="2" fill="#e8d6b4" />
+            <rect x="80" y="10" width="28" height="36" fill="#d2452b" opacity="0.75" />
+            <rect x="84" y="14" width="20" height="10" fill="#ffe45c" opacity="0.8" />
+            <rect x="74" y="60" width="38" height="4" fill="#6b5236" />
+            <rect x="78" y="48" width="6" height="12" fill="#2337c6" opacity="0.7" />
+            <rect x="86" y="50" width="5" height="10" fill="#1d7a4b" opacity="0.7" />
+            <rect x="93" y="47" width="7" height="13" fill="#7b7f95" />
+            <Person />
+          </svg>
+        </div>
+        <figcaption className="mt-2 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink-3">Before</figcaption>
+      </figure>
+      <span className="font-display text-2xl font-extrabold text-ink-3 transition group-hover:translate-x-1 group-hover:text-pen">→</span>
+      <figure className="text-center">
+        <div className="cropmarks">
+          <div
+            className="h-[132px] w-[112px] overflow-hidden rounded-sm border border-line sm:h-[154px] sm:w-[131px]"
+            style={{ backgroundImage: "repeating-conic-gradient(#e7e2d6 0% 25%, #fffdf8 0% 50%)", backgroundSize: "14px 14px" }}
+          >
+            <svg viewBox="0 0 112 132" className="h-full w-full">
+              <Person />
+            </svg>
+          </div>
+        </div>
+        <figcaption className="mt-2 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ok">✓ Transparent</figcaption>
+      </figure>
+    </div>
+  );
+}
+
+function SuiteIcon({ name }: { name: "convert" | "pdf" }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  return (
+    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-ink text-card transition group-hover/suite:-rotate-6 group-hover/suite:bg-pen" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-6 w-6">
+        {name === "convert" && (<><path d="M4 8h13l-3-3M20 16H7l3 3" {...common} /></>)}
+        {name === "pdf" && (<><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" {...common} /><path d="M14 3v5h5M9 13h6M9 17h4" {...common} /></>)}
+      </svg>
+    </span>
   );
 }
 

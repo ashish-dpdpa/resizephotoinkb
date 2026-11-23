@@ -4,6 +4,7 @@ import { Bricolage_Grotesque, JetBrains_Mono, Noto_Sans_Devanagari, Public_Sans 
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HideOnAdmin from "@/components/HideOnAdmin";
 import JsonLd from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
 import { buildSearchIndex } from "@/lib/search";
@@ -47,14 +48,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const searchIndex = buildSearchIndex();
 
   return (
-    <html lang="en-IN" className={`${display.variable} ${body.variable} ${mono.variable} ${deva.variable}`}>
+    <html
+      lang="en-IN"
+      className={`${display.variable} ${body.variable} ${mono.variable} ${deva.variable}`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-screen flex-col">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-card focus:px-3 focus:py-2">
           Skip to content
         </a>
-        <Header searchIndex={searchIndex} menus={buildNavMenus()} examCount={exams.length} />
+        <HideOnAdmin>
+          <Header searchIndex={searchIndex} menus={buildNavMenus()} examCount={exams.length} />
+        </HideOnAdmin>
         <main id="main" className="flex-1">{children}</main>
-        <Footer />
+        <HideOnAdmin>
+          <Footer />
+        </HideOnAdmin>
         <JsonLd
           data={[
             {

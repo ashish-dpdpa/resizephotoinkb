@@ -46,6 +46,6 @@ Plenty of forms have a lower limit too, usually 10 KB. A clean signature on whit
 
 ## A note on PNG
 
-Exam portals almost always want JPG. PNG is great for screenshots, but a photo saved as PNG is usually several times larger. Our tools always give you a JPG. If you're curious about the difference, see [JPG vs PNG vs PDF for online forms](/blog/jpg-vs-png-vs-pdf-for-online-forms).
+Exam portals almost always want JPG. PNG is great for screenshots, but a photo saved as PNG is usually several times larger. Our tools always give you a JPG. If you're curious about the difference, see [JPG vs PNG vs PDF for online forms](/guides/jpg-vs-png-vs-pdf-for-online-forms).
 
 Need a different size? There are pages for [10 KB](/tools/compress-image-to-10kb), [50 KB](/tools/compress-image-to-50kb) and [100 KB](/tools/compress-image-to-100kb), and a [20 to 50 KB range](/tools/resize-photo-20kb-to-50kb) for forms that set both limits.

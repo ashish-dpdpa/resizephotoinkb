@@ -37,7 +37,7 @@ tags: ["photo ka size kaise kam kare", "photo kb kaise kam kare", "फोटो 
 | **Pixel** | फोटो की लंबाई-चौड़ाई | 200 × 230 px |
 | **cm** | प्रिंट होने पर साइज | 3.5 × 4.5 cm |
 
-अगर फॉर्म में **cm** में साइज दिया है (जैसे 3.5 × 4.5 cm), तो [cm में रिसाइज़](/tools/resize-photo-3-5-x-4-5-cm) वाला टूल इस्तेमाल करें। ज़्यादा जानकारी के लिए पढ़ें: [KB, पिक्सेल, cm और DPI समझें](/blog/photo-size-kb-pixels-dpi-explained)।
+अगर फॉर्म में **cm** में साइज दिया है (जैसे 3.5 × 4.5 cm), तो [cm में रिसाइज़](/tools/resize-photo-3-5-x-4-5-cm) वाला टूल इस्तेमाल करें। ज़्यादा जानकारी के लिए पढ़ें: [KB, पिक्सेल, cm और DPI समझें](/guides/photo-size-kb-pixels-dpi-explained)।
 
 ## "File size too small" आए तो क्या करें?
 
@@ -65,4 +65,4 @@ tags: ["photo ka size kaise kam kare", "photo kb kaise kam kare", "फोटो 
 हाँ। फोटो आपके फोन में ही प्रोसेस होती है, कहीं अपलोड नहीं होती।
 
 **सिग्नेचर का साइज कैसे कम करें?**
-इसके लिए पढ़ें: [सिग्नेचर 10 से 20 KB कैसे करें](/blog/signature-10-se-20-kb-kaise-kare)।
+इसके लिए पढ़ें: [सिग्नेचर 10 से 20 KB कैसे करें](/guides/signature-10-se-20-kb-kaise-kare)।

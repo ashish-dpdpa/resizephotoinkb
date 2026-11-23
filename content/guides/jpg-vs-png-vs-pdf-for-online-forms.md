@@ -55,4 +55,4 @@ If a form wants a certificate as a JPG instead, photograph or scan it and use th
 
 Check what format each upload needs in the notice. Photos and signatures should be JPG, inside the KB range and pixel size. Documents should be PDF (or JPG if asked), under the limit, with every page readable. Keep file names short and plain, like `photo.jpg`, `sign.jpg` or `10th-marksheet.pdf`.
 
-More on this: [how to resize a photo for exam forms](/blog/how-to-resize-photo-for-government-exam-forms) and [how to compress an image to 20 KB](/blog/how-to-compress-image-to-20kb).
+More on this: [how to resize a photo for exam forms](/guides/how-to-resize-photo-for-government-exam-forms) and [how to compress an image to 20 KB](/guides/how-to-compress-image-to-20kb).

@@ -87,7 +87,7 @@ export default function Header({
   };
 
   const isActive = (m: NavMenu) => m.match.some((p) => pathname === p || pathname.startsWith(p));
-  const guidesActive = pathname.startsWith("/blog");
+  const blogActive = pathname.startsWith("/blog");
   const current = menus.find((m) => m.id === open);
 
   return (
@@ -149,10 +149,10 @@ export default function Header({
               <li onMouseEnter={hoverClose}>
                 <Link
                   href="/blog"
-                  className={`relative block rounded-full px-3 py-2 text-[0.92rem] font-semibold transition ${guidesActive ? "text-ink" : "text-ink-2 hover:bg-paper-2 hover:text-ink"}`}
+                  className={`relative block rounded-full px-3 py-2 text-[0.92rem] font-semibold transition ${blogActive ? "text-ink" : "text-ink-2 hover:bg-paper-2 hover:text-ink"}`}
                 >
-                  Guides
-                  {guidesActive && <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-[5px] rounded-full bg-marker" />}
+                  Blog
+                  {blogActive && <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-[5px] rounded-full bg-marker" />}
                 </Link>
               </li>
             </ul>
@@ -269,7 +269,7 @@ export default function Header({
                     </div>
                   </details>
                 ))}
-                <Link href="/blog" className="block px-4 py-3.5 font-display text-lg font-bold text-ink">Guides</Link>
+                <Link href="/blog" className="block px-4 py-3.5 font-display text-lg font-bold text-ink">Blog</Link>
               </nav>
               <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 px-1 text-sm text-ink-2">
                 <li><Link href="/about">About</Link></li>

@@ -12,7 +12,7 @@ export const siteConfig = {
   // Temporary: switch to contact@resizephotoinkb.com once the domain is bought and
   // free email forwarding (Cloudflare Email Routing / registrar) points it to this inbox.
   contactEmail: "workwith.ak0@gmail.com",
-  // Shown on the About page and as the blog author.
+  // Shown on the About page and as the author of guides and blog posts.
   author: {
     name: "ResizePhotoInKB Editorial Team",
     bio: "We go through exam notices (and the guides that report them), test every size preset in our own tools, and write up what you actually need to know to get your form accepted.",
@@ -24,6 +24,7 @@ export const siteConfig = {
 export const mainNav = [
   { href: "/tools", label: "Tools" },
   { href: "/exams", label: "Exams" },
+  { href: "/guides", label: "Guides" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },

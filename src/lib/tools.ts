@@ -1,7 +1,8 @@
 import { dimensionPages, maxPages, rangePages } from "./sizePages";
 import { pdfSizePages } from "./pdfPages";
+import { convertPages } from "./convertPages";
 
-export type ToolGroup = "main" | "maker" | "pdf" | "compress" | "range" | "dimension" | "converter";
+export type ToolGroup = "main" | "maker" | "format" | "pdf" | "compress" | "range" | "dimension" | "converter";
 
 export interface ToolLink {
   href: string;
@@ -56,6 +57,12 @@ export const tools: ToolLink[] = [
     group: "maker",
   },
   {
+    href: "/tools/background-remover",
+    title: "Photo background remover",
+    description: "Remove the background from a photo for a transparent PNG, or add a plain colour, on your device.",
+    group: "maker",
+  },
+  {
     href: "/tools/join-photo-and-signature",
     title: "Join photo and signature",
     description: "Merge your photo and signature into one JPG at the KB size your form needs.",
@@ -86,6 +93,13 @@ export const tools: ToolLink[] = [
     group: "pdf",
   },
   ...pdfSizePages.map((p) => ({ href: `/tools/${p.slug}`, title: p.title, description: p.description, group: "pdf" as const })),
+  {
+    href: "/tools/image-converter",
+    title: "Image converter",
+    description: "Convert HEIC, WebP, PNG and JPG to JPG, PNG or WebP, in batches, with an optional KB limit.",
+    group: "format",
+  },
+  ...convertPages.map((p) => ({ href: `/tools/${p.slug}`, title: p.title, description: p.description, group: "format" as const })),
   ...rangePages.map((p) => ({ href: `/tools/${p.slug}`, title: p.title, description: p.description, group: "range" as const })),
   ...dimensionPages.map((p) => ({ href: `/tools/${p.slug}`, title: p.title, description: p.description, group: "dimension" as const })),
   ...maxPages.map((p) => ({ href: `/tools/${p.slug}`, title: `Compress image to ${p.kb} KB`, description: `Reduce a JPG or PNG to under ${p.kb} KB while keeping it sharp.`, group: "compress" as const })),
@@ -112,6 +126,7 @@ export const tools: ToolLink[] = [
 export const toolGroups: { id: ToolGroup; title: string }[] = [
   { id: "main", title: "Main tools" },
   { id: "maker", title: "Photo makers" },
+  { id: "format", title: "Image format converters" },
   { id: "pdf", title: "PDF tools" },
   { id: "range", title: "Resize to a KB range" },
   { id: "dimension", title: "Resize to a size in cm" },

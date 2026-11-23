@@ -21,9 +21,9 @@ Open the notification PDF and press Ctrl+F for "photograph". Most notices give y
 
 Write them down somewhere. Pay attention to the lower limit too. A lot of people only look at the maximum and then wonder why a 12 KB photo bounces when the minimum was 20 KB.
 
-If the notice gives centimetres instead of pixels, our explainer on [KB, pixels, cm and DPI](/blog/photo-size-kb-pixels-dpi-explained) shows how to convert them.
+If the notice gives centimetres instead of pixels, our explainer on [KB, pixels, cm and DPI](/guides/photo-size-kb-pixels-dpi-explained) shows how to convert them.
 
-One thing has changed recently. SSC, the railway boards and UP Police now take your photo **live with the camera** during the form, so for those you don't upload a photo file at all, only the signature. If that's your exam, skip to our [live photo tips](/blog/live-photo-capture-tips-ssc-railway).
+One thing has changed recently. SSC, the railway boards and UP Police now take your photo **live with the camera** during the form, so for those you don't upload a photo file at all, only the signature. If that's your exam, skip to our [live photo tips](/guides/live-photo-capture-tips-ssc-railway).
 
 ## Take a photo that will survive a human check
 
@@ -56,7 +56,7 @@ Take a screenshot of the final page with your photo visible. If there's ever a d
 | Invalid dimensions | Use the exact pixels from the notice, not "roughly" the same |
 | Photo looks blurry | Start from a sharper original; compression can't add detail |
 
-There's a longer list in [why exam form photos get rejected](/blog/why-exam-form-photos-get-rejected).
+There's a longer list in [why exam form photos get rejected](/guides/why-exam-form-photos-get-rejected).
 
 ## Keep the same photo for everything
 

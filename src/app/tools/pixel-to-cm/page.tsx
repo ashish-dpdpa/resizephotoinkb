@@ -51,7 +51,7 @@ export default function PixelToCmPage() {
       <p>
         Ready to resize? Use <Link href="/tools/resize-image-in-cm">resize image in cm</Link> or the{" "}
         <Link href="/tools/photo-resizer">photo resizer</Link>. For background, read{" "}
-        <Link href="/blog/photo-size-kb-pixels-dpi-explained">KB vs pixels vs cm vs DPI</Link>.
+        <Link href="/guides/photo-size-kb-pixels-dpi-explained">KB vs pixels vs cm vs DPI</Link>.
       </p>
     </ToolPage>
   );

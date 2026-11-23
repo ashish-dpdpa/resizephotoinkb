@@ -1,102 +1,113 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
-import { marked } from "marked";
+import "server-only";
+import { readingMinutes, renderMarkdown, safeUrl } from "./markdown";
+import { isValidSlug } from "./slug";
+import { createPublicClient } from "./supabase/public";
 
-// Blog posts are Markdown files in /content/blog. Front matter fields:
-//   title, description, date (YYYY-MM-DD), updated (optional), category, tags (list)
-// The file name (without .md) becomes the URL slug.
+// Blog posts are written in the admin panel (/admin) and stored in Supabase
+// (table `posts`, see supabase/schema.sql). Evergreen how-tos live in
+// /content/guides instead; see src/lib/guides.ts.
 
-const BLOG_DIR = path.join(process.cwd(), "content", "blog");
-
-export interface PostMeta {
+export interface PostRow {
+  id: string;
   slug: string;
   title: string;
-  /** Shorter title for search results (optional front matter `seoTitle`). */
-  seoTitle?: string;
-  description: string;
-  date: string;
-  updated?: string;
+  seo_title: string | null;
+  excerpt: string;
+  content: string;
+  cover_image_url: string | null;
+  cover_image_alt: string | null;
   category: string;
   tags: string[];
-  /** "hi" for Hindi posts; defaults to English. */
   lang: "en" | "hi";
+  status: "draft" | "published";
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPostMeta {
+  slug: string;
+  title: string;
+  seoTitle?: string;
+  excerpt: string;
+  coverImage?: { url: string; alt: string };
+  category: string;
+  tags: string[];
+  lang: "en" | "hi";
+  publishedAt: string;
+  updatedAt: string;
   readingMinutes: number;
 }
 
-export interface Post extends PostMeta {
+export interface BlogPost extends BlogPostMeta {
   html: string;
   headings: { id: string; text: string }[];
 }
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/<[^>]+>/g, "")
-    .replace(/[^\p{L}\p{M}\p{N}\s-]/gu, "")
-    .trim()
-    .replace(/\s+/g, "-");
-}
+const LIST_COLUMNS =
+  "slug, title, seo_title, excerpt, content, cover_image_url, cover_image_alt, category, tags, lang, published_at, updated_at";
 
-function readFile(slug: string) {
-  const raw = fs.readFileSync(path.join(BLOG_DIR, `${slug}.md`), "utf8");
-  return matter(raw);
-}
-
-function toMeta(slug: string, data: Record<string, unknown>, content: string): PostMeta {
-  const words = content.split(/\s+/).filter(Boolean).length;
+function toMeta(row: Omit<PostRow, "id" | "status" | "created_at">): BlogPostMeta {
+  const cover = safeUrl(row.cover_image_url);
   return {
-    slug,
-    title: String(data.title),
-    seoTitle: data.seoTitle ? String(data.seoTitle) : undefined,
-    description: String(data.description),
-    date: String(data.date),
-    updated: data.updated ? String(data.updated) : undefined,
-    category: String(data.category ?? "Guides"),
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-    lang: data.lang === "hi" ? "hi" : "en",
-    readingMinutes: Math.max(1, Math.round(words / 200)),
+    slug: row.slug,
+    title: row.title,
+    seoTitle: row.seo_title || undefined,
+    excerpt: row.excerpt,
+    coverImage: cover ? { url: cover, alt: row.cover_image_alt || "" } : undefined,
+    category: row.category,
+    tags: row.tags ?? [],
+    lang: row.lang === "hi" ? "hi" : "en",
+    publishedAt: row.published_at ?? row.updated_at,
+    updatedAt: row.updated_at,
+    readingMinutes: readingMinutes(row.content),
   };
 }
 
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(BLOG_DIR)) return [];
-  return fs
-    .readdirSync(BLOG_DIR)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => {
-      const slug = f.replace(/\.md$/, "");
-      const { data, content } = readFile(slug);
-      return toMeta(slug, data, content);
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+/** Published posts, newest first. Returns [] when Supabase isn't configured yet. */
+export async function getPublishedPosts(limit?: number): Promise<BlogPostMeta[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  let query = supabase
+    .from("posts")
+    .select(LIST_COLUMNS)
+    .eq("status", "published")
+    .lte("published_at", new Date().toISOString())
+    .order("published_at", { ascending: false });
+  if (limit) query = query.limit(limit);
+  const { data, error } = await query;
+  if (error) {
+    console.error("[blog] could not load posts:", error.message);
+    return [];
+  }
+  return (data ?? []).map(toMeta);
 }
 
-export function getPost(slug: string): Post | null {
-  if (!/^[a-z0-9-]+$/.test(slug) || !fs.existsSync(path.join(BLOG_DIR, `${slug}.md`))) return null;
-  const { data, content } = readFile(slug);
-  const headings: { id: string; text: string }[] = [];
-  const used = new Map<string, number>();
-  const renderer = new marked.Renderer();
-  renderer.heading = ({ tokens, depth }) => {
-    const text = marked.Parser.parseInline(tokens);
-    const baseId = slugify(text) || "section";
-    const n = (used.get(baseId) ?? 0) + 1;
-    used.set(baseId, n);
-    const id = n > 1 ? `${baseId}-${n}` : baseId;
-    if (depth === 2) headings.push({ id, text: text.replace(/<[^>]+>/g, "") });
-    return `<h${depth} id="${id}">${text}</h${depth}>`;
-  };
-  renderer.link = ({ href, tokens }) => {
-    const text = marked.Parser.parseInline(tokens);
-    const external = /^https?:\/\//.test(href);
-    return external
-      ? `<a href="${href}" target="_blank" rel="noopener nofollow">${text}</a>`
-      : `<a href="${href}">${text}</a>`;
-  };
-  const html = (marked.parse(content, { renderer, async: false }) as string)
-    // let wide tables scroll sideways on phones instead of stretching the page
-    .replace(/<table>/g, '<div class="table-wrap"><table>')
-    .replace(/<\/table>/g, "</table></div>");
-  return { ...toMeta(slug, data, content), html, headings };
+export async function getPublishedPost(slug: string): Promise<BlogPost | null> {
+  if (!isValidSlug(slug)) return null;
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("posts")
+    .select(LIST_COLUMNS)
+    .eq("slug", slug)
+    .eq("status", "published")
+    .lte("published_at", new Date().toISOString())
+    .maybeSingle();
+  if (error) {
+    console.error(`[blog] could not load post "${slug}":`, error.message);
+    return null;
+  }
+  if (!data) return null;
+  return { ...toMeta(data), ...renderMarkdown(data.content) };
+}
+
+/** Dates on the blog are shown in Indian time, whatever the server's time zone. */
+export function formatPostDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Kolkata",
+  });
 }

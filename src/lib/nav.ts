@@ -69,6 +69,7 @@ export function buildNavMenus(): NavMenu[] {
           links: [
             { href: "/tools/photo-with-name-and-date", label: "Photo with name & date" },
             { href: "/tools/passport-size-photo-maker", label: "Passport photo maker", note: "White background" },
+            { href: "/tools/background-remover", label: "Background remover", note: "Transparent PNG" },
             { href: "/tools/join-photo-and-signature", label: "Join photo & signature" },
             { href: "/tools/signature-maker", label: "Draw a signature" },
           ],
@@ -76,6 +77,9 @@ export function buildNavMenus(): NavMenu[] {
         {
           title: "Converters",
           links: [
+            { href: "/tools/image-converter", label: "Image converter", note: "HEIC, WebP, PNG ⇄ JPG" },
+            { href: "/tools/heic-to-jpg", label: "HEIC to JPG", note: "iPhone photos" },
+            { href: "/tools/webp-to-jpg", label: "WebP to JPG" },
             { href: "/tools/dpi-converter", label: "DPI converter" },
             { href: "/tools/pixel-to-cm", label: "Pixel ⇄ cm" },
             { href: "/tools/kb-to-mb", label: "KB ⇄ MB" },

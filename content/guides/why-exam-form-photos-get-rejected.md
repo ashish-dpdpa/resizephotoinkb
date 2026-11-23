@@ -15,7 +15,7 @@ Upload errors are annoying mostly because they're vague. "Invalid file" could me
 
 **2. The file is under the limit.** This one surprises people. Many forms have a minimum, commonly 10 KB, and railway and UP Police forms go as high as 30 KB for the signature. A clean signature can easily come out at 5 KB. Put the minimum into our tool and it pads the file up to it without touching the picture.
 
-**3. Wrong dimensions.** Some portals accept a range of widths and heights, others want the exact pixel size. If the notice says 200 × 230, give it 200 × 230. If the notice uses centimetres, our [KB vs pixels vs DPI](/blog/photo-size-kb-pixels-dpi-explained) explainer shows the conversion.
+**3. Wrong dimensions.** Some portals accept a range of widths and heights, others want the exact pixel size. If the notice says 200 × 230, give it 200 × 230. If the notice uses centimetres, our [KB vs pixels vs DPI](/guides/photo-size-kb-pixels-dpi-explained) explainer shows the conversion.
 
 **4. Wrong format.** PNG, HEIC from an iPhone, WebP saved from WhatsApp Web, or a PDF where a JPG was expected. Everything our tools produce is JPG. On an iPhone you can also go to Settings, then Camera, then Formats, and pick Most Compatible.
 
@@ -39,7 +39,7 @@ These are the painful ones, because by now you've already cleared the exam.
 
 **11. Caps, dark glasses or filters.** Beauty filters and portrait-mode blur can make a photo unacceptable. Use the normal camera mode.
 
-**12. A signature that doesn't match.** SSC and bank notices say signatures in capital letters aren't accepted. Beyond that, your signature has to match the one you put on the attendance sheet and answer sheet. Sign the way you normally sign. Our [signature guide](/blog/how-to-scan-signature-for-online-form) walks through it.
+**12. A signature that doesn't match.** SSC and bank notices say signatures in capital letters aren't accepted. Beyond that, your signature has to match the one you put on the attendance sheet and answer sheet. Sign the way you normally sign. Our [signature guide](/guides/how-to-scan-signature-for-online-form) walks through it.
 
 ## Thirty seconds before you pay
 
